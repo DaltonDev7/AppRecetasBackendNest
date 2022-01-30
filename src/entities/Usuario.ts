@@ -25,6 +25,7 @@ export class Usuario extends BaseEntity {
     @Column({
         nullable: false,
         type: "timestamp",
+        default: () => 'CURRENT_TIMESTAMP'
     })
     FechaCreacion: Date;
 

@@ -15,7 +15,7 @@ var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
     AppRoutingModule = __decorate([
-        (0, common_1.Module)({
+        common_1.Module({
             imports: [
                 core_1.RouterModule.register([
                     {

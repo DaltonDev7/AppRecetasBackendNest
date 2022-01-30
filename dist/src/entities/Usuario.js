@@ -33,11 +33,11 @@ var Usuario = /** @class */ (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
-        (0, typeorm_1.PrimaryGeneratedColumn)('increment'),
+        typeorm_1.PrimaryGeneratedColumn('increment'),
         __metadata("design:type", Number)
     ], Usuario.prototype, "Id", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
+        typeorm_1.Column({
             nullable: false,
             type: "varchar",
             length: 25
@@ -45,7 +45,7 @@ var Usuario = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], Usuario.prototype, "Nombres", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
+        typeorm_1.Column({
             nullable: false,
             type: "varchar",
             length: 25
@@ -53,24 +53,25 @@ var Usuario = /** @class */ (function (_super) {
         __metadata("design:type", String)
     ], Usuario.prototype, "Apellidos", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
+        typeorm_1.Column({
             nullable: false,
             type: "timestamp",
+            default: function () { return 'CURRENT_TIMESTAMP'; }
         }),
         __metadata("design:type", Date)
     ], Usuario.prototype, "FechaCreacion", void 0);
     __decorate([
-        (0, typeorm_1.Column)({
+        typeorm_1.Column({
             nullable: true
         }),
         __metadata("design:type", Date)
     ], Usuario.prototype, "FechaModificacion", void 0);
     __decorate([
-        (0, typeorm_1.OneToMany)(function () { return Tarea_1.Tarea; }, function (tarea) { return tarea.Usuario; }),
+        typeorm_1.OneToMany(function () { return Tarea_1.Tarea; }, function (tarea) { return tarea.Usuario; }),
         __metadata("design:type", Array)
     ], Usuario.prototype, "Tareas", void 0);
     Usuario = __decorate([
-        (0, typeorm_1.Entity)('usuarios')
+        typeorm_1.Entity('usuarios')
     ], Usuario);
     return Usuario;
 }(typeorm_1.BaseEntity));

@@ -36,25 +36,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@nestjs/core");
-var app_module_1 = require("./app.module");
-function bootstrap() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app, lazyModuleLoader;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, core_1.NestFactory.create(app_module_1.AppModule)];
-                case 1:
-                    app = _a.sent();
-                    lazyModuleLoader = app.get(core_1.LazyModuleLoader);
-                    app.setGlobalPrefix('api');
-                    return [4 /*yield*/, app.listen(3000)];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+exports.addDefaultDate1643512629615 = void 0;
+var addDefaultDate1643512629615 = /** @class */ (function () {
+    function addDefaultDate1643512629615() {
+        this.name = 'addDefaultDate1643512629615';
+    }
+    addDefaultDate1643512629615.prototype.up = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, queryRunner.query("ALTER TABLE `usuarios` CHANGE `FechaCreacion` `FechaCreacion` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP")];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
         });
-    });
-}
-bootstrap();
-//# sourceMappingURL=main.js.map
+    };
+    addDefaultDate1643512629615.prototype.down = function (queryRunner) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, queryRunner.query("ALTER TABLE `usuarios` CHANGE `FechaCreacion` `FechaCreacion` timestamp NOT NULL")];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return addDefaultDate1643512629615;
+}());
+exports.addDefaultDate1643512629615 = addDefaultDate1643512629615;
+//# sourceMappingURL=1643512629615-addDefaultDate.js.map

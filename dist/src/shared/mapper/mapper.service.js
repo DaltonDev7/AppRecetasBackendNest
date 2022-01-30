@@ -24,50 +24,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tarea = void 0;
-var typeorm_1 = require("typeorm");
-var Usuario_1 = require("./Usuario");
-var Tarea = /** @class */ (function (_super) {
-    __extends(Tarea, _super);
-    function Tarea() {
-        return _super !== null && _super.apply(this, arguments) || this;
+exports.MapperService = void 0;
+var common_1 = require("@nestjs/common");
+var ts_mapper_1 = require("ts-mapper");
+var MapperService = /** @class */ (function (_super) {
+    __extends(MapperService, _super);
+    function MapperService() {
+        var _this = _super.call(this) || this;
+        _this.config();
+        return _this;
     }
-    __decorate([
-        typeorm_1.PrimaryGeneratedColumn('increment'),
-        __metadata("design:type", Number)
-    ], Tarea.prototype, "Id", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            length: 258,
-            type: "varchar"
-        }),
-        __metadata("design:type", String)
-    ], Tarea.prototype, "Descripcion", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            type: "timestamp",
-        }),
-        __metadata("design:type", Date)
-    ], Tarea.prototype, "FechaCreacion", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: true
-        }),
-        __metadata("design:type", Date)
-    ], Tarea.prototype, "FechaModificacion", void 0);
-    __decorate([
-        typeorm_1.ManyToOne(function () { return Usuario_1.Usuario; }, function (usuario) { return usuario.Tareas; }),
-        typeorm_1.JoinColumn({
-            name: 'IdUsuario'
-        }),
-        __metadata("design:type", Usuario_1.Usuario)
-    ], Tarea.prototype, "Usuario", void 0);
-    Tarea = __decorate([
-        typeorm_1.Entity('tareas')
-    ], Tarea);
-    return Tarea;
-}(typeorm_1.BaseEntity));
-exports.Tarea = Tarea;
-//# sourceMappingURL=Tarea.js.map
+    MapperService.prototype.config = function () {
+        this.createMap();
+    };
+    MapperService = __decorate([
+        common_1.Injectable(),
+        __metadata("design:paramtypes", [])
+    ], MapperService);
+    return MapperService;
+}(ts_mapper_1.TypeMapper));
+exports.MapperService = MapperService;
+//# sourceMappingURL=mapper.service.js.map

@@ -15,7 +15,7 @@ var AppService = /** @class */ (function () {
         return 'Hello World!';
     };
     AppService = __decorate([
-        (0, common_1.Injectable)()
+        common_1.Injectable()
     ], AppService);
     return AppService;
 }());

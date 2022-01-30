@@ -18,7 +18,7 @@ var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
-        (0, common_1.Module)({
+        common_1.Module({
             imports: [
                 typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default),
                 usuario_module_1.UsuarioModule,
