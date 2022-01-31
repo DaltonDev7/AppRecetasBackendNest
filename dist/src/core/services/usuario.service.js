@@ -69,10 +69,17 @@ var UsuarioService = /** @class */ (function () {
     };
     UsuarioService.prototype.getById = function (Id) {
         return __awaiter(this, void 0, void 0, function () {
+            var user;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.usersRepository.findOneOrFail(Id)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        user = _a.sent();
+                        if (user)
+                            return [2 /*return*/, user];
+                        else
+                            throw new common_1.NotFoundException('El Id del usuario no existe');
+                        return [2 /*return*/];
                 }
             });
         });
@@ -114,13 +121,10 @@ var UsuarioService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.usersRepository.findOneOrFail(Id)];
                     case 1:
                         user = _a.sent();
-                        if (user) {
-                            return [2 /*return*/, this.usersRepository.remove(user)];
-                        }
-                        else {
-                            return [2 /*return*/, { msg: 'El Id del  usuario no  existe' }];
-                        }
-                        return [2 /*return*/];
+                        if (!user) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.usersRepository.remove(user)];
+                    case 2: return [2 /*return*/, _a.sent()];
+                    case 3: throw new common_1.NotFoundException('El Id del usuario no existe');
                 }
             });
         });

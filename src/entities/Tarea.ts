@@ -17,6 +17,7 @@ export class Tarea extends BaseEntity {
     @Column({
         nullable: false,
         type: "timestamp",
+        default: () => 'CURRENT_TIMESTAMP'
     })
     FechaCreacion: Date;
 
@@ -25,9 +26,12 @@ export class Tarea extends BaseEntity {
     })
     FechaModificacion: Date;
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.Tareas)
+    @ManyToOne(() => Usuario, (usuario) => usuario.Tareas, { 
+        //eager:true,
+        nullable: false 
+    })
     @JoinColumn({
-        name: 'IdUsuario'
+        name: 'IdUsuario',
     })
     Usuario: Usuario
 

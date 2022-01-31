@@ -48,6 +48,7 @@ var Tarea = /** @class */ (function (_super) {
         typeorm_1.Column({
             nullable: false,
             type: "timestamp",
+            default: function () { return 'CURRENT_TIMESTAMP'; }
         }),
         __metadata("design:type", Date)
     ], Tarea.prototype, "FechaCreacion", void 0);
@@ -58,9 +59,12 @@ var Tarea = /** @class */ (function (_super) {
         __metadata("design:type", Date)
     ], Tarea.prototype, "FechaModificacion", void 0);
     __decorate([
-        typeorm_1.ManyToOne(function () { return Usuario_1.Usuario; }, function (usuario) { return usuario.Tareas; }),
+        typeorm_1.ManyToOne(function () { return Usuario_1.Usuario; }, function (usuario) { return usuario.Tareas; }, {
+            //eager:true,
+            nullable: false
+        }),
         typeorm_1.JoinColumn({
-            name: 'IdUsuario'
+            name: 'IdUsuario',
         }),
         __metadata("design:type", Usuario_1.Usuario)
     ], Tarea.prototype, "Usuario", void 0);
