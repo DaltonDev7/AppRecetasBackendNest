@@ -46,6 +46,22 @@ var Usuario = /** @class */ (function (_super) {
     ], Usuario.prototype, "Nombres", void 0);
     __decorate([
         typeorm_1.Column({
+            nullable: true,
+            type: "varchar",
+            unique: true,
+            length: 50
+        }),
+        __metadata("design:type", String)
+    ], Usuario.prototype, "Email", void 0);
+    __decorate([
+        typeorm_1.Column({
+            nullable: true,
+            type: "varchar",
+        }),
+        __metadata("design:type", String)
+    ], Usuario.prototype, "PassWord", void 0);
+    __decorate([
+        typeorm_1.Column({
             nullable: false,
             type: "varchar",
             length: 25

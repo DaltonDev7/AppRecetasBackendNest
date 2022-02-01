@@ -6,12 +6,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { UsuarioModule } from './modules/usuario/usuario.module';
 import { TareaModule } from './modules/tarea/tarea.module';
 import config from '../ormconfig'
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
     UsuarioModule,
-    TareaModule
+    TareaModule,
+    AuthModule
     // AppRoutingModule
   ],
   controllers: [AppController],

@@ -14,6 +14,7 @@ var app_service_1 = require("./app.service");
 var usuario_module_1 = require("./modules/usuario/usuario.module");
 var tarea_module_1 = require("./modules/tarea/tarea.module");
 var ormconfig_1 = require("../ormconfig");
+var auth_module_1 = require("./modules/auth/auth.module");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -22,7 +23,8 @@ var AppModule = /** @class */ (function () {
             imports: [
                 typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default),
                 usuario_module_1.UsuarioModule,
-                tarea_module_1.TareaModule
+                tarea_module_1.TareaModule,
+                auth_module_1.AuthModule
                 // AppRoutingModule
             ],
             controllers: [app_controller_1.AppController],

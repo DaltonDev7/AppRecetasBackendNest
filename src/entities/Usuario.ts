@@ -11,16 +11,30 @@ export class Usuario extends BaseEntity {
     @Column({
         nullable: false,
         type: "varchar",
-        length:25
+        length: 25
     })
-    Nombres:string
+    Nombres: string
+
+    @Column({
+        nullable: true,
+        type: "varchar",
+        unique: true,
+        length: 50
+    })
+    Email: string
+
+    @Column({
+        nullable: true,
+        type: "varchar",
+    })
+    PassWord: string
 
     @Column({
         nullable: false,
         type: "varchar",
-        length:25
+        length: 25
     })
-    Apellidos:string
+    Apellidos: string
 
     @Column({
         nullable: false,
@@ -34,7 +48,7 @@ export class Usuario extends BaseEntity {
     })
     FechaModificacion: Date;
 
-    @OneToMany(()=> Tarea, (tarea)=> tarea.Usuario)
-    Tareas:Tarea[]
+    @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
+    Tareas: Tarea[]
 
 }
