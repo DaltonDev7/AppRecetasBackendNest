@@ -54,20 +54,28 @@ var typeorm_1 = require("@nestjs/typeorm");
 var typeorm_2 = require("typeorm");
 var Usuario_1 = require("../../entities/Usuario");
 var auth_manager_service_1 = require("./auth-manager.service");
+var rolesUsuarios_repository_1 = require("../repositories/rolesUsuarios.repository");
+var rol_service_1 = require("./rol.service");
+var perfil_enums_1 = require("../enums/perfil.enums");
 var AuthService = /** @class */ (function () {
-    function AuthService(usersRepository, authManagerService) {
+    function AuthService(usersRepository, rolService, rolesUsuariosRepository, 
+    // @InjectRepository(RolRepository)
+    // private rolRepository: RolRepository,
+    authManagerService) {
         this.usersRepository = usersRepository;
+        this.rolService = rolService;
+        this.rolesUsuariosRepository = rolesUsuariosRepository;
         this.authManagerService = authManagerService;
     }
     AuthService.prototype.registrarUser = function (usuario) {
         return __awaiter(this, void 0, void 0, function () {
             var existCorreo, passWordEncriptado, newUser;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.authManagerService.verificarCorreo(usuario.Email)];
                     case 1:
                         existCorreo = _a.sent();
-                        console.log(existCorreo);
                         if (existCorreo)
                             throw new common_1.BadRequestException('Este correo ya esta registrado');
                         return [4 /*yield*/, this.authManagerService.encriptarPassWord(usuario.PassWord)];
@@ -77,7 +85,25 @@ var AuthService = /** @class */ (function () {
                         return [4 /*yield*/, this.usersRepository.create(usuario)];
                     case 3:
                         newUser = _a.sent();
-                        return [4 /*yield*/, this.usersRepository.save(newUser)];
+                        return [4 /*yield*/, this.usersRepository.save(newUser).then(function (usuario) { return __awaiter(_this, void 0, void 0, function () {
+                                var rolUsuario, newUsuarioRole;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            rolUsuario = {
+                                                Usuario: usuario.Id,
+                                                Rol: perfil_enums_1.PerfilEnum.USUARIO
+                                            };
+                                            return [4 /*yield*/, this.rolesUsuariosRepository.create(rolUsuario)];
+                                        case 1:
+                                            newUsuarioRole = _a.sent();
+                                            return [4 /*yield*/, this.rolesUsuariosRepository.save(newUsuarioRole)];
+                                        case 2:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
                     case 4:
                         _a.sent();
                         return [2 /*return*/];
@@ -88,7 +114,10 @@ var AuthService = /** @class */ (function () {
     AuthService = __decorate([
         common_1.Injectable(),
         __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
+        __param(2, typeorm_1.InjectRepository(rolesUsuarios_repository_1.RolesUsuariosRepository)),
         __metadata("design:paramtypes", [typeorm_2.Repository,
+            rol_service_1.RolService,
+            rolesUsuarios_repository_1.RolesUsuariosRepository,
             auth_manager_service_1.AuthManagerService])
     ], AuthService);
     return AuthService;

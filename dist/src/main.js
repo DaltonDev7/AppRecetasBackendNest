@@ -40,14 +40,17 @@ var core_1 = require("@nestjs/core");
 var app_module_1 = require("./app.module");
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function () {
-        var app, lazyModuleLoader;
+        var app;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, core_1.NestFactory.create(app_module_1.AppModule)];
                 case 1:
                     app = _a.sent();
-                    lazyModuleLoader = app.get(core_1.LazyModuleLoader);
+                    //const lazyModuleLoader = app.get(LazyModuleLoader);
                     app.setGlobalPrefix('api');
+                    app.enableCors({
+                        origin: '*'
+                    });
                     return [4 /*yield*/, app.listen(3000)];
                 case 2:
                     _a.sent();

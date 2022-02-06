@@ -7,13 +7,15 @@ import { UsuarioModule } from './modules/usuario/usuario.module';
 import { TareaModule } from './modules/tarea/tarea.module';
 import config from '../ormconfig'
 import { AuthModule } from './modules/auth/auth.module';
+import { RolModule } from './modules/rol/rol.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
     UsuarioModule,
     TareaModule,
-    AuthModule
+    AuthModule,
+    RolModule
     // AppRoutingModule
   ],
   controllers: [AppController],

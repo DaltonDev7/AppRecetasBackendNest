@@ -15,6 +15,7 @@ var usuario_module_1 = require("./modules/usuario/usuario.module");
 var tarea_module_1 = require("./modules/tarea/tarea.module");
 var ormconfig_1 = require("../ormconfig");
 var auth_module_1 = require("./modules/auth/auth.module");
+var rol_module_1 = require("./modules/rol/rol.module");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -24,7 +25,8 @@ var AppModule = /** @class */ (function () {
                 typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default),
                 usuario_module_1.UsuarioModule,
                 tarea_module_1.TareaModule,
-                auth_module_1.AuthModule
+                auth_module_1.AuthModule,
+                rol_module_1.RolModule
                 // AppRoutingModule
             ],
             controllers: [app_controller_1.AppController],

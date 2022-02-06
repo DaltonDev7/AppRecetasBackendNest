@@ -6,13 +6,13 @@ const config: MysqlConnectionOptions = {
     port: 3306,
     username: 'root',
     password: 'root',
-    database: 'apptareas',
+    database: 'recetasdb',
     entities: ["dist/src/entities/**/*{.js,.ts}"],
     migrations :[
-        "dist/src/database/migrations/*.js"
+        "dist/src/migrations/*.js"
     ],
     cli:{
-        migrationsDir:"src/database/migrations",
+        migrationsDir:"src/migrations",
       //  entitiesDir: "src/database/entities",
     },
     synchronize: false,

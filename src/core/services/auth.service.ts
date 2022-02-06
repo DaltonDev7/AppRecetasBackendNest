@@ -3,6 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../../entities/Usuario';
 import { AuthManagerService } from './auth-manager.service';
+import { RolesUsuariosRepository } from '../repositories/rolesUsuarios.repository';
+import { RolRepository } from '../repositories/rol.repository';
+import { RolService } from './rol.service';
+import { RolesUsuarios } from '../../entities/RolesUsuarios';
+import { PerfilEnum } from '../enums/perfil.enums';
+import { CreateRoleUsuario } from '../dto/create-roles-usuario-dto';
 
 @Injectable()
 export class AuthService {
@@ -10,22 +16,35 @@ export class AuthService {
     constructor(
         @InjectRepository(Usuario)
         private usersRepository: Repository<Usuario>,
+        private rolService: RolService,
+        @InjectRepository(RolesUsuariosRepository)
+        private rolesUsuariosRepository: RolesUsuariosRepository,
+        // @InjectRepository(RolRepository)
+        // private rolRepository: RolRepository,
         private authManagerService: AuthManagerService
     ) { }
 
     async registrarUser(usuario: Usuario) {
 
         let existCorreo = await this.authManagerService.verificarCorreo(usuario.Email)
-        console.log(existCorreo);
-
-        if (existCorreo)
-            throw new BadRequestException('Este correo ya esta registrado')
+        if (existCorreo) throw new BadRequestException('Este correo ya esta registrado')
 
         let passWordEncriptado = await this.authManagerService.encriptarPassWord(usuario.PassWord)
         usuario.PassWord = passWordEncriptado
 
         let newUser = await this.usersRepository.create(usuario)
-        await this.usersRepository.save(newUser)
+
+
+        await this.usersRepository.save(newUser).then(async (usuario: Usuario) => {
+
+            let rolUsuario = {
+                Usuario: usuario.Id,
+                Rol: PerfilEnum.USUARIO
+            }
+            let newUsuarioRole = await this.rolesUsuariosRepository.create(rolUsuario)
+            await this.rolesUsuariosRepository.save(newUsuarioRole)
+
+        })
 
     }
 

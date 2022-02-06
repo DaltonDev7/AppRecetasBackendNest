@@ -27,6 +27,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
 var typeorm_1 = require("typeorm");
 var Tarea_1 = require("./Tarea");
+var RolesUsuarios_1 = require("./RolesUsuarios");
 var Usuario = /** @class */ (function (_super) {
     __extends(Usuario, _super);
     function Usuario() {
@@ -86,6 +87,10 @@ var Usuario = /** @class */ (function (_super) {
         typeorm_1.OneToMany(function () { return Tarea_1.Tarea; }, function (tarea) { return tarea.Usuario; }),
         __metadata("design:type", Array)
     ], Usuario.prototype, "Tareas", void 0);
+    __decorate([
+        typeorm_1.OneToMany(function () { return RolesUsuarios_1.RolesUsuarios; }, function (rolUsuario) { return rolUsuario.Usuario; }),
+        __metadata("design:type", Array)
+    ], Usuario.prototype, "RolesUsuarios", void 0);
     Usuario = __decorate([
         typeorm_1.Entity('usuarios')
     ], Usuario);

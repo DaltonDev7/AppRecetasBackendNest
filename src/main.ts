@@ -5,9 +5,11 @@ import { TareaModule } from './modules/tarea/tarea.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const lazyModuleLoader = app.get(LazyModuleLoader);
-
+  //const lazyModuleLoader = app.get(LazyModuleLoader);
   app.setGlobalPrefix('api')
+  app.enableCors({
+    origin:'*'
+  })
 
   await app.listen(3000);
 }

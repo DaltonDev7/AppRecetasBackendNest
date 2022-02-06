@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Rol } from "./Rol";
 import { Tarea } from "./Tarea";
+import { RolesUsuarios } from './RolesUsuarios';
 
 
 @Entity('usuarios')
@@ -50,5 +52,12 @@ export class Usuario extends BaseEntity {
 
     @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
     Tareas: Tarea[]
+
+    @OneToMany(() => RolesUsuarios, (rolUsuario) => rolUsuario.Usuario)
+    RolesUsuarios: RolesUsuarios[]
+
+    // @ManyToMany(() => Rol)
+    // @JoinTable()
+    // Roles: Rol[];
 
 }
