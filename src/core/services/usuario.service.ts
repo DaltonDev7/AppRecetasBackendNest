@@ -12,6 +12,9 @@ export class UsuarioService {
     ) { }
 
     public async getAll(): Promise<Usuario[]> {
+
+        const data  = await this.usersRepository.find()
+
         return await this.usersRepository.find();
     }
 
