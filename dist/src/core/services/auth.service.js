@@ -20,107 +20,72 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
-var common_1 = require("@nestjs/common");
-var typeorm_1 = require("@nestjs/typeorm");
-var typeorm_2 = require("typeorm");
-var Usuario_1 = require("../../entities/Usuario");
-var auth_manager_service_1 = require("./auth-manager.service");
-var rolesUsuarios_repository_1 = require("../repositories/rolesUsuarios.repository");
-var rol_service_1 = require("./rol.service");
-var perfil_enums_1 = require("../enums/perfil.enums");
-var AuthService = /** @class */ (function () {
-    function AuthService(usersRepository, rolService, rolesUsuariosRepository, 
+const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const Usuario_1 = require("../../entities/Usuario");
+const auth_manager_service_1 = require("./auth-manager.service");
+const rolesUsuarios_repository_1 = require("../repositories/rolesUsuarios.repository");
+const rol_service_1 = require("./rol.service");
+const perfil_enums_1 = require("../enums/perfil.enums");
+const jwt_1 = require("@nestjs/jwt");
+let AuthService = class AuthService {
+    constructor(usersRepository, rolService, rolesUsuariosRepository, 
     // @InjectRepository(RolRepository)
     // private rolRepository: RolRepository,
-    authManagerService) {
+    authManagerService, jwtService) {
         this.usersRepository = usersRepository;
         this.rolService = rolService;
         this.rolesUsuariosRepository = rolesUsuariosRepository;
         this.authManagerService = authManagerService;
+        this.jwtService = jwtService;
     }
-    AuthService.prototype.registrarUser = function (usuario) {
-        return __awaiter(this, void 0, void 0, function () {
-            var existCorreo, passWordEncriptado, newUser;
-            var _this = this;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.authManagerService.verificarCorreo(usuario.Email)];
-                    case 1:
-                        existCorreo = _a.sent();
-                        if (existCorreo)
-                            throw new common_1.BadRequestException('Este correo ya esta registrado');
-                        return [4 /*yield*/, this.authManagerService.encriptarPassWord(usuario.PassWord)];
-                    case 2:
-                        passWordEncriptado = _a.sent();
-                        usuario.PassWord = passWordEncriptado;
-                        return [4 /*yield*/, this.usersRepository.create(usuario)];
-                    case 3:
-                        newUser = _a.sent();
-                        return [4 /*yield*/, this.usersRepository.save(newUser).then(function (usuario) { return __awaiter(_this, void 0, void 0, function () {
-                                var rolUsuario, newUsuarioRole;
-                                return __generator(this, function (_a) {
-                                    switch (_a.label) {
-                                        case 0:
-                                            rolUsuario = {
-                                                Usuario: usuario.Id,
-                                                Rol: perfil_enums_1.PerfilEnum.USUARIO
-                                            };
-                                            return [4 /*yield*/, this.rolesUsuariosRepository.create(rolUsuario)];
-                                        case 1:
-                                            newUsuarioRole = _a.sent();
-                                            return [4 /*yield*/, this.rolesUsuariosRepository.save(newUsuarioRole)];
-                                        case 2:
-                                            _a.sent();
-                                            return [2 /*return*/];
-                                    }
-                                });
-                            }); })];
-                    case 4:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    registrarUser(usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let existCorreo = yield this.authManagerService.verificarCorreo(usuario.Email);
+            if (existCorreo)
+                throw new common_1.BadRequestException('Este correo ya esta registrado');
+            let passWordEncriptado = yield this.authManagerService.encriptarPassWord(usuario.PassWord);
+            usuario.PassWord = passWordEncriptado;
+            let newUser = yield this.usersRepository.create(usuario);
+            yield this.usersRepository.save(newUser).then((usuario) => __awaiter(this, void 0, void 0, function* () {
+                let rolUsuario = {
+                    Usuario: usuario.Id,
+                    Rol: perfil_enums_1.PerfilEnum.USUARIO
+                };
+                let newUsuarioRole = yield this.rolesUsuariosRepository.create(rolUsuario);
+                yield this.rolesUsuariosRepository.save(newUsuarioRole);
+            }));
         });
-    };
-    AuthService = __decorate([
-        common_1.Injectable(),
-        __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
-        __param(2, typeorm_1.InjectRepository(rolesUsuarios_repository_1.RolesUsuariosRepository)),
-        __metadata("design:paramtypes", [typeorm_2.Repository,
-            rol_service_1.RolService,
-            rolesUsuarios_repository_1.RolesUsuariosRepository,
-            auth_manager_service_1.AuthManagerService])
-    ], AuthService);
-    return AuthService;
-}());
+    }
+    login(payload) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const usuario = yield this.usersRepository.findOne({ where: { Email: payload.Email } });
+            if (!usuario)
+                return new common_1.UnauthorizedException('Este correo no esta registrado');
+            let passwordVerificated = yield this.authManagerService.verificarPassword(usuario, payload);
+            if (!passwordVerificated)
+                return new common_1.UnauthorizedException('Credenciales incorrectas');
+            const userPayload = {
+                Id: usuario.Id,
+                Nombres: usuario.Nombres
+            };
+            let token = yield this.jwtService.sign(userPayload);
+            return { token };
+        });
+    }
+};
+AuthService = __decorate([
+    common_1.Injectable(),
+    __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
+    __param(2, typeorm_1.InjectRepository(rolesUsuarios_repository_1.RolesUsuariosRepository)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        rol_service_1.RolService,
+        rolesUsuarios_repository_1.RolesUsuariosRepository,
+        auth_manager_service_1.AuthManagerService,
+        jwt_1.JwtService])
+], AuthService);
 exports.AuthService = AuthService;
 //# sourceMappingURL=auth.service.js.map

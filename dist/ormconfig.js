@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var config = {
+const config = {
     type: 'mysql',
     host: 'localhost',
     port: 3306,

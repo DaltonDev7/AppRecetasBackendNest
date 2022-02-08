@@ -2,6 +2,7 @@ import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Usuario } from '../../../../entities/Usuario';
+import { SignInDTO } from '../../../../core/dto/Signin-dto';
 
 @Controller('auth')
 export class AuthController {
@@ -17,6 +18,26 @@ export class AuthController {
                 })
             })
         } catch (error) {
+            return res.status(500).json({
+                msg: 'Ha ocurrido un error',
+                error
+            })
+        }
+    }
+
+    @Post('Login')
+    async Login(@Body() data: SignInDTO, @Res() res: Response) {
+        try {
+            console.log(data);
+            
+            let token = await this.authService.login(data)
+            return res.status(200).json(
+                token
+            )
+
+        } catch (error) {
+            console.log(error);
+            
             return res.status(500).json({
                 msg: 'Ha ocurrido un error',
                 error

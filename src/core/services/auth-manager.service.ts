@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { genSalt, hash } from 'bcryptjs';
+import { compare, genSalt, hash } from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { Usuario } from '../../entities/Usuario';
+import { SignInDTO } from '../dto/Signin-dto';
 
 @Injectable()
 export class AuthManagerService {
@@ -17,9 +18,14 @@ export class AuthManagerService {
         })
     }
 
-    public async encriptarPassWord(password:string) {
+    public async encriptarPassWord(password: string) {
         const salt = await genSalt(10);
-        return await hash(password , salt)
+        return await hash(password, salt)
+    }
+
+    public async verificarPassword(usuario: Usuario, data: SignInDTO) {
+        return await compare(data.PassWord, usuario.PassWord)
+        //if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
     }
 
 }

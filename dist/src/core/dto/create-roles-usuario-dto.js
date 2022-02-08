@@ -10,19 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateRoleUsuario = void 0;
-var class_validator_1 = require("class-validator");
-var CreateRoleUsuario = /** @class */ (function () {
-    function CreateRoleUsuario() {
-    }
-    __decorate([
-        class_validator_1.IsNumber(),
-        __metadata("design:type", Number)
-    ], CreateRoleUsuario.prototype, "Usuario", void 0);
-    __decorate([
-        class_validator_1.IsNumber(),
-        __metadata("design:type", Number)
-    ], CreateRoleUsuario.prototype, "Rol", void 0);
-    return CreateRoleUsuario;
-}());
+const class_validator_1 = require("class-validator");
+class CreateRoleUsuario {
+}
+__decorate([
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], CreateRoleUsuario.prototype, "Usuario", void 0);
+__decorate([
+    class_validator_1.IsNumber(),
+    __metadata("design:type", Number)
+], CreateRoleUsuario.prototype, "Rol", void 0);
 exports.CreateRoleUsuario = CreateRoleUsuario;
 //# sourceMappingURL=create-roles-usuario-dto.js.map

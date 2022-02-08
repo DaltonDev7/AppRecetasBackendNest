@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from '../../entities/Usuario';
@@ -9,6 +9,8 @@ import { RolService } from './rol.service';
 import { RolesUsuarios } from '../../entities/RolesUsuarios';
 import { PerfilEnum } from '../enums/perfil.enums';
 import { CreateRoleUsuario } from '../dto/create-roles-usuario-dto';
+import { SignInDTO } from '../dto/Signin-dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -21,7 +23,8 @@ export class AuthService {
         private rolesUsuariosRepository: RolesUsuariosRepository,
         // @InjectRepository(RolRepository)
         // private rolRepository: RolRepository,
-        private authManagerService: AuthManagerService
+        private authManagerService: AuthManagerService,
+        private readonly jwtService: JwtService
     ) { }
 
     async registrarUser(usuario: Usuario) {
@@ -46,6 +49,22 @@ export class AuthService {
 
         })
 
+    }
+
+    async login(payload: SignInDTO) {
+        const usuario = await this.usersRepository.findOne({ where: { Email: payload.Email } })
+        if (!usuario) return new UnauthorizedException('Este correo no esta registrado')
+
+        let passwordVerificated = await this.authManagerService.verificarPassword(usuario, payload)
+        if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
+
+        const userPayload = {
+            Id: usuario.Id,
+            Nombres: usuario.Nombres
+        }
+
+        let token = await this.jwtService.sign(userPayload)
+        return { token }
     }
 
 }

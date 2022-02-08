@@ -10,21 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SignInDTO = void 0;
-var class_validator_1 = require("class-validator");
-var SignInDTO = /** @class */ (function () {
-    function SignInDTO() {
-    }
-    __decorate([
-        class_validator_1.IsNotEmpty(),
-        class_validator_1.IsString(),
-        __metadata("design:type", String)
-    ], SignInDTO.prototype, "Email", void 0);
-    __decorate([
-        class_validator_1.IsNotEmpty(),
-        class_validator_1.IsString(),
-        __metadata("design:type", String)
-    ], SignInDTO.prototype, "PassWord", void 0);
-    return SignInDTO;
-}());
+const class_validator_1 = require("class-validator");
+class SignInDTO {
+}
+__decorate([
+    class_validator_1.IsNotEmpty(),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SignInDTO.prototype, "Email", void 0);
+__decorate([
+    class_validator_1.IsNotEmpty(),
+    class_validator_1.IsString(),
+    __metadata("design:type", String)
+], SignInDTO.prototype, "PassWord", void 0);
 exports.SignInDTO = SignInDTO;
 //# sourceMappingURL=Signin-dto.js.map

@@ -7,17 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SharedModule = void 0;
-var common_1 = require("@nestjs/common");
-var SharedModule = /** @class */ (function () {
-    function SharedModule() {
-    }
-    SharedModule = __decorate([
-        common_1.Module({
-            providers: [],
-            exports: []
-        })
-    ], SharedModule);
-    return SharedModule;
-}());
+const common_1 = require("@nestjs/common");
+let SharedModule = class SharedModule {
+};
+SharedModule = __decorate([
+    common_1.Module({
+        providers: [],
+        exports: []
+    })
+], SharedModule);
 exports.SharedModule = SharedModule;
 //# sourceMappingURL=shared.module.js.map

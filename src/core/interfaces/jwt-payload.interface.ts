@@ -2,6 +2,6 @@
 
 export interface IJwtPayload {
    Id?:number;
-   Nombres?: string
-   Email?: string
+   Email?: string;
+   PassWord?:string;
 }

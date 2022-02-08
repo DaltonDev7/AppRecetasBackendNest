@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,33 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Rol = void 0;
-var typeorm_1 = require("typeorm");
-var RolesUsuarios_1 = require("./RolesUsuarios");
-var Rol = /** @class */ (function (_super) {
-    __extends(Rol, _super);
-    function Rol() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    __decorate([
-        typeorm_1.PrimaryGeneratedColumn('increment'),
-        __metadata("design:type", Number)
-    ], Rol.prototype, "Id", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            type: "varchar",
-            length: 25
-        }),
-        __metadata("design:type", String)
-    ], Rol.prototype, "Nombre", void 0);
-    __decorate([
-        typeorm_1.OneToMany(function () { return RolesUsuarios_1.RolesUsuarios; }, function (rolUsuario) { return rolUsuario.Rol; }),
-        __metadata("design:type", Array)
-    ], Rol.prototype, "RolesUsuarios", void 0);
-    Rol = __decorate([
-        typeorm_1.Entity('rol')
-    ], Rol);
-    return Rol;
-}(typeorm_1.BaseEntity));
+const typeorm_1 = require("typeorm");
+const RolesUsuarios_1 = require("./RolesUsuarios");
+let Rol = class Rol extends typeorm_1.BaseEntity {
+};
+__decorate([
+    typeorm_1.PrimaryGeneratedColumn('increment'),
+    __metadata("design:type", Number)
+], Rol.prototype, "Id", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        length: 25
+    }),
+    __metadata("design:type", String)
+], Rol.prototype, "Nombre", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => RolesUsuarios_1.RolesUsuarios, (rolUsuario) => rolUsuario.Rol),
+    __metadata("design:type", Array)
+], Rol.prototype, "RolesUsuarios", void 0);
+Rol = __decorate([
+    typeorm_1.Entity('rol')
+], Rol);
 exports.Rol = Rol;
 //# sourceMappingURL=Rol.js.map

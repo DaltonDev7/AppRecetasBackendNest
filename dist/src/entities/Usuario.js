@@ -1,19 +1,4 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -25,76 +10,71 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Usuario = void 0;
-var typeorm_1 = require("typeorm");
-var Tarea_1 = require("./Tarea");
-var RolesUsuarios_1 = require("./RolesUsuarios");
-var Usuario = /** @class */ (function (_super) {
-    __extends(Usuario, _super);
-    function Usuario() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    __decorate([
-        typeorm_1.PrimaryGeneratedColumn('increment'),
-        __metadata("design:type", Number)
-    ], Usuario.prototype, "Id", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            type: "varchar",
-            length: 25
-        }),
-        __metadata("design:type", String)
-    ], Usuario.prototype, "Nombres", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: true,
-            type: "varchar",
-            unique: true,
-            length: 50
-        }),
-        __metadata("design:type", String)
-    ], Usuario.prototype, "Email", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: true,
-            type: "varchar",
-        }),
-        __metadata("design:type", String)
-    ], Usuario.prototype, "PassWord", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            type: "varchar",
-            length: 25
-        }),
-        __metadata("design:type", String)
-    ], Usuario.prototype, "Apellidos", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: false,
-            type: "timestamp",
-            default: function () { return 'CURRENT_TIMESTAMP'; }
-        }),
-        __metadata("design:type", Date)
-    ], Usuario.prototype, "FechaCreacion", void 0);
-    __decorate([
-        typeorm_1.Column({
-            nullable: true
-        }),
-        __metadata("design:type", Date)
-    ], Usuario.prototype, "FechaModificacion", void 0);
-    __decorate([
-        typeorm_1.OneToMany(function () { return Tarea_1.Tarea; }, function (tarea) { return tarea.Usuario; }),
-        __metadata("design:type", Array)
-    ], Usuario.prototype, "Tareas", void 0);
-    __decorate([
-        typeorm_1.OneToMany(function () { return RolesUsuarios_1.RolesUsuarios; }, function (rolUsuario) { return rolUsuario.Usuario; }),
-        __metadata("design:type", Array)
-    ], Usuario.prototype, "RolesUsuarios", void 0);
-    Usuario = __decorate([
-        typeorm_1.Entity('usuarios')
-    ], Usuario);
-    return Usuario;
-}(typeorm_1.BaseEntity));
+const typeorm_1 = require("typeorm");
+const Tarea_1 = require("./Tarea");
+const RolesUsuarios_1 = require("./RolesUsuarios");
+let Usuario = class Usuario extends typeorm_1.BaseEntity {
+};
+__decorate([
+    typeorm_1.PrimaryGeneratedColumn('increment'),
+    __metadata("design:type", Number)
+], Usuario.prototype, "Id", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        length: 25
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "Nombres", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+        unique: true,
+        length: 50
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "Email", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "PassWord", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        length: 25
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "Apellidos", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "timestamp",
+        default: () => 'CURRENT_TIMESTAMP'
+    }),
+    __metadata("design:type", Date)
+], Usuario.prototype, "FechaCreacion", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true
+    }),
+    __metadata("design:type", Date)
+], Usuario.prototype, "FechaModificacion", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => Tarea_1.Tarea, (tarea) => tarea.Usuario),
+    __metadata("design:type", Array)
+], Usuario.prototype, "Tareas", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => RolesUsuarios_1.RolesUsuarios, (rolUsuario) => rolUsuario.Usuario),
+    __metadata("design:type", Array)
+], Usuario.prototype, "RolesUsuarios", void 0);
+Usuario = __decorate([
+    typeorm_1.Entity('usuarios')
+], Usuario);
 exports.Usuario = Usuario;
 //# sourceMappingURL=Usuario.js.map
