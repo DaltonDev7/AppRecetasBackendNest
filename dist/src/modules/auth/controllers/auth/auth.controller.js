@@ -33,7 +33,6 @@ let AuthController = class AuthController {
     Save(user, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(user);
                 yield this.authService.registrarUser(user).then(() => {
                     return res.status(201).json({
                         msg: 'Usuario Registrado'

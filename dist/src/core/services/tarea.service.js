@@ -43,7 +43,7 @@ let TareaService = class TareaService {
                 .select([
                 'tarea.Id as Id',
                 'tarea.Descripcion as Descripcion',
-                'tare.FechaCreacion as FechaCreacion',
+                'tarea.FechaCreacion as FechaCreacion',
                 'usuario.Id as IdUsuario',
                 'usuario.Nombres as NombreUsuario',
                 'usuario.Apellidos as ApellidoUsuario'

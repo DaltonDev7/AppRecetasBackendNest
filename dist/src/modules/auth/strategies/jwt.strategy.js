@@ -27,11 +27,11 @@ const config_1 = require("@nestjs/config");
 const passport_1 = require("@nestjs/passport");
 const typeorm_1 = require("@nestjs/typeorm");
 const passport_jwt_1 = require("passport-jwt");
-const passport_local_1 = require("passport-local");
+const passport_jwt_2 = require("passport-jwt");
 const typeorm_2 = require("typeorm");
 const Usuario_1 = require("../../../entities/Usuario");
 const env_constants_1 = require("../../../core/constants/env.constants");
-let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport_local_1.Strategy) {
+let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport_jwt_2.Strategy) {
     constructor(usersRepository, _configService) {
         super({
             jwtFromRequest: passport_jwt_1.ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -44,9 +44,11 @@ let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport
     }
     validate(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.usersRepository.findOne({ Email: data.Email });
+            console.log(data);
+            const user = yield this.usersRepository.findOne({ Email: data.Email, Id: data.Id });
+            console.log(user);
             if (!user)
-                throw new common_1.UnauthorizedException('Credenciales erroneas');
+                throw new common_1.UnauthorizedException('Credenciales erroneas aaaaaas');
             return user;
         });
     }

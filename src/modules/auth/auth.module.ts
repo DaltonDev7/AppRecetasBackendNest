@@ -9,7 +9,7 @@ import { Usuario } from '../../entities/Usuario';
 import { AuthController } from './controllers/auth/auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RolRepository } from '../../core/repositories/rol.repository';
-import { RolesUsuariosRepository } from '../../core/repositories/rolesUsuarios.repository';
+
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { JWT_SECRET } from '../../core/constants/env.constants';
 import { PassportModule } from '@nestjs/passport';
@@ -20,7 +20,6 @@ import { PassportModule } from '@nestjs/passport';
     TypeOrmModule.forFeature([
       Usuario,
       RolRepository,
-      RolesUsuariosRepository
     ]),
     PassportModule.register({
       defaultStrategy: 'jwt'

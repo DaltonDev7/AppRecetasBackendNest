@@ -23,6 +23,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TareaController = void 0;
 const common_1 = require("@nestjs/common");
+const jwt_guard_1 = require("../../../core/guards/jwt.guard");
 const tarea_service_1 = require("../../../core/services/tarea.service");
 const Tarea_1 = require("../../../entities/Tarea");
 let TareaController = class TareaController {
@@ -92,6 +93,7 @@ let TareaController = class TareaController {
     }
 };
 __decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
     common_1.Get('GetAll'),
     __param(0, common_1.Req()),
     __param(1, common_1.Res()),
@@ -100,6 +102,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TareaController.prototype, "getTareas", null);
 __decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
     common_1.Get('GetByIdUsuario/:idUsuario'),
     __param(0, common_1.Param('idUsuario', common_1.ParseIntPipe)),
     __param(1, common_1.Res()),
@@ -108,6 +111,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TareaController.prototype, "GetByIdUsuario", null);
 __decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
     common_1.Post('Save'),
     __param(0, common_1.Body()),
     __param(1, common_1.Res()),
@@ -116,6 +120,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], TareaController.prototype, "Save", null);
 __decorate([
+    common_1.UseGuards(jwt_guard_1.JwtAuthGuard),
     common_1.Delete('Delete/:id'),
     __param(0, common_1.Param('id', common_1.ParseIntPipe)),
     __param(1, common_1.Res()),

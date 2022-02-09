@@ -32,8 +32,17 @@ let UsuarioService = class UsuarioService {
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.usersRepository.find();
-            return yield this.usersRepository.find();
+            const data = yield this.usersRepository.createQueryBuilder('user')
+                .leftJoinAndSelect('user.Roles', 'rolesUsuario')
+                .select([
+                'user.Id  as  Id',
+                'user.Nombres as Nombres',
+                'user.Apellidos as Apellidos',
+                'rolesUsuario.Id as IdRol',
+                'rolesUsuario.Id as NombreRol'
+            ]);
+            return yield data.getRawMany();
+            // return await this.usersRepository.find();
         });
     }
     getById(Id) {

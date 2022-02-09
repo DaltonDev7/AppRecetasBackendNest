@@ -27,7 +27,6 @@ const Usuario_1 = require("../../entities/Usuario");
 const auth_controller_1 = require("./controllers/auth/auth.controller");
 const jwt_strategy_1 = require("./strategies/jwt.strategy");
 const rol_repository_1 = require("../../core/repositories/rol.repository");
-const rolesUsuarios_repository_1 = require("../../core/repositories/rolesUsuarios.repository");
 const config_1 = require("@nestjs/config");
 const env_constants_1 = require("../../core/constants/env.constants");
 const passport_1 = require("@nestjs/passport");
@@ -40,7 +39,6 @@ AuthModule = __decorate([
             typeorm_1.TypeOrmModule.forFeature([
                 Usuario_1.Usuario,
                 rol_repository_1.RolRepository,
-                rolesUsuarios_repository_1.RolesUsuariosRepository
             ]),
             passport_1.PassportModule.register({
                 defaultStrategy: 'jwt'

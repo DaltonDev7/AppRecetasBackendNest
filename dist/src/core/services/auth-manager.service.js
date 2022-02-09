@@ -33,6 +33,7 @@ let AuthManagerService = class AuthManagerService {
     }
     verificarCorreo(correo) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('entro');
             return yield this.usersRepository.findOne({
                 where: { Email: correo }
             });

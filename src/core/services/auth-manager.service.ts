@@ -13,6 +13,8 @@ export class AuthManagerService {
     ) { }
 
     public async verificarCorreo(correo: string): Promise<Usuario> {
+        console.log('entro');
+        
         return await this.usersRepository.findOne({
             where: { Email: correo }
         })

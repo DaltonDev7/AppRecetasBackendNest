@@ -27,37 +27,34 @@ const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const Usuario_1 = require("../../entities/Usuario");
 const auth_manager_service_1 = require("./auth-manager.service");
-const rolesUsuarios_repository_1 = require("../repositories/rolesUsuarios.repository");
 const rol_service_1 = require("./rol.service");
 const perfil_enums_1 = require("../enums/perfil.enums");
 const jwt_1 = require("@nestjs/jwt");
 let AuthService = class AuthService {
-    constructor(usersRepository, rolService, rolesUsuariosRepository, 
+    constructor(usersRepository, rolService, 
     // @InjectRepository(RolRepository)
     // private rolRepository: RolRepository,
     authManagerService, jwtService) {
         this.usersRepository = usersRepository;
         this.rolService = rolService;
-        this.rolesUsuariosRepository = rolesUsuariosRepository;
         this.authManagerService = authManagerService;
         this.jwtService = jwtService;
     }
     registrarUser(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('hola');
             let existCorreo = yield this.authManagerService.verificarCorreo(usuario.Email);
+            console.log(existCorreo);
             if (existCorreo)
                 throw new common_1.BadRequestException('Este correo ya esta registrado');
             let passWordEncriptado = yield this.authManagerService.encriptarPassWord(usuario.PassWord);
             usuario.PassWord = passWordEncriptado;
             let newUser = yield this.usersRepository.create(usuario);
-            yield this.usersRepository.save(newUser).then((usuario) => __awaiter(this, void 0, void 0, function* () {
-                let rolUsuario = {
-                    Usuario: usuario.Id,
-                    Rol: perfil_enums_1.PerfilEnum.USUARIO
-                };
-                let newUsuarioRole = yield this.rolesUsuariosRepository.create(rolUsuario);
-                yield this.rolesUsuariosRepository.save(newUsuarioRole);
-            }));
+            console.log(newUser);
+            let rolUser = yield this.rolService.getById(perfil_enums_1.PerfilEnum.USUARIO);
+            console.log(rolUser);
+            newUser.Roles = [rolUser];
+            yield this.usersRepository.save(newUser);
         });
     }
     login(payload) {
@@ -70,7 +67,7 @@ let AuthService = class AuthService {
                 return new common_1.UnauthorizedException('Credenciales incorrectas');
             const userPayload = {
                 Id: usuario.Id,
-                Nombres: usuario.Nombres
+                Email: usuario.Email
             };
             let token = yield this.jwtService.sign(userPayload);
             return { token };
@@ -80,10 +77,8 @@ let AuthService = class AuthService {
 AuthService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
-    __param(2, typeorm_1.InjectRepository(rolesUsuarios_repository_1.RolesUsuariosRepository)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         rol_service_1.RolService,
-        rolesUsuarios_repository_1.RolesUsuariosRepository,
         auth_manager_service_1.AuthManagerService,
         jwt_1.JwtService])
 ], AuthService);
