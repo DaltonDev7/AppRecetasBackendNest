@@ -6,13 +6,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RolRepository = void 0;
-const typeorm_1 = require("typeorm");
-const Rol_1 = require("../../entities/Rol");
-let RolRepository = class RolRepository extends typeorm_1.Repository {
+exports.JwtAuthGuard = void 0;
+const common_1 = require("@nestjs/common");
+const passport_1 = require("@nestjs/passport");
+let JwtAuthGuard = class JwtAuthGuard extends passport_1.AuthGuard('jwt') {
 };
-RolRepository = __decorate([
-    typeorm_1.EntityRepository(Rol_1.Rol)
-], RolRepository);
-exports.RolRepository = RolRepository;
-//# sourceMappingURL=rol.repository.js.map
+JwtAuthGuard = __decorate([
+    common_1.Injectable()
+], JwtAuthGuard);
+exports.JwtAuthGuard = JwtAuthGuard;
+//# sourceMappingURL=jwt.guard.js.map

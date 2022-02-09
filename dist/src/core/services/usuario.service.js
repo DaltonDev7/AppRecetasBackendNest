@@ -20,125 +20,67 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioService = void 0;
-var common_1 = require("@nestjs/common");
-var typeorm_1 = require("@nestjs/typeorm");
-var typeorm_2 = require("typeorm");
-var Usuario_1 = require("../../entities/Usuario");
-var UsuarioService = /** @class */ (function () {
-    function UsuarioService(usersRepository) {
+const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const typeorm_2 = require("typeorm");
+const Usuario_1 = require("../../entities/Usuario");
+let UsuarioService = class UsuarioService {
+    constructor(usersRepository) {
         this.usersRepository = usersRepository;
     }
-    UsuarioService.prototype.getAll = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var data;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.find()];
-                    case 1:
-                        data = _a.sent();
-                        return [4 /*yield*/, this.usersRepository.find()];
-                    case 2: return [2 /*return*/, _a.sent()];
-                }
-            });
+    getAll() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const data = yield this.usersRepository.createQueryBuilder('user')
+                .leftJoinAndSelect('user.Roles', 'rolesUsuario')
+                .select([
+                'user.Id  as  Id',
+                'user.Nombres as Nombres',
+                'user.Apellidos as Apellidos',
+                'rolesUsuario.Id as IdRol',
+                'rolesUsuario.Id as NombreRol'
+            ]);
+            return yield data.getRawMany();
+            // return await this.usersRepository.find();
         });
-    };
-    UsuarioService.prototype.getById = function (Id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.findOneOrFail(Id)];
-                    case 1:
-                        user = _a.sent();
-                        if (user)
-                            return [2 /*return*/, user];
-                        else
-                            throw new common_1.NotFoundException('El Id del usuario no existe');
-                        return [2 /*return*/];
-                }
-            });
+    }
+    getById(Id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const user = yield this.usersRepository.findOneOrFail(Id);
+            if (user)
+                return user;
+            else
+                throw new common_1.NotFoundException('El Id del usuario no existe');
         });
-    };
-    UsuarioService.prototype.create = function (usuario) {
-        return __awaiter(this, void 0, void 0, function () {
-            var newUser;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.create(usuario)];
-                    case 1:
-                        newUser = _a.sent();
-                        return [4 /*yield*/, this.usersRepository.save(newUser)];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
-                }
-            });
+    }
+    create(usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let newUser = yield this.usersRepository.create(usuario);
+            yield this.usersRepository.save(newUser);
         });
-    };
-    UsuarioService.prototype.update = function (usuario) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.update(usuario.Id, usuario)];
-                    case 1: 
-                    // let updateUser = await this.usersRepository.findOneOrFail(usuario.Id)
-                    // console.log(updateUser);
-                    return [2 /*return*/, _a.sent()];
-                }
-            });
+    }
+    update(usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // let updateUser = await this.usersRepository.findOneOrFail(usuario.Id)
+            // console.log(updateUser);
+            return yield this.usersRepository.update(usuario.Id, usuario);
         });
-    };
-    UsuarioService.prototype.deleteUser = function (Id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var user;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.usersRepository.findOneOrFail(Id)];
-                    case 1:
-                        user = _a.sent();
-                        if (!user) return [3 /*break*/, 3];
-                        return [4 /*yield*/, this.usersRepository.remove(user)];
-                    case 2: return [2 /*return*/, _a.sent()];
-                    case 3: throw new common_1.NotFoundException('El Id del usuario no existe');
-                }
-            });
+    }
+    deleteUser(Id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let user = yield this.usersRepository.findOneOrFail(Id);
+            if (user)
+                return yield this.usersRepository.remove(user);
+            else
+                throw new common_1.NotFoundException('El Id del usuario no existe');
         });
-    };
-    UsuarioService = __decorate([
-        common_1.Injectable(),
-        __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
-        __metadata("design:paramtypes", [typeorm_2.Repository])
-    ], UsuarioService);
-    return UsuarioService;
-}());
+    }
+};
+UsuarioService = __decorate([
+    common_1.Injectable(),
+    __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
+    __metadata("design:paramtypes", [typeorm_2.Repository])
+], UsuarioService);
 exports.UsuarioService = UsuarioService;
 //# sourceMappingURL=usuario.service.js.map

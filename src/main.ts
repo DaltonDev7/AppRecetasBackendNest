@@ -1,7 +1,7 @@
 import { LazyModuleLoader, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { TareaModule } from './modules/tarea/tarea.module';
-
+require("dotenv").config();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

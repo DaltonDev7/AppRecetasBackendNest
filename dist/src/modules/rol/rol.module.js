@@ -7,22 +7,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RolModule = void 0;
-var common_1 = require("@nestjs/common");
-var typeorm_1 = require("@nestjs/typeorm");
-var rol_controller_1 = require("./rol.controller");
-var rol_repository_1 = require("../../core/repositories/rol.repository");
-var rol_service_1 = require("../../core/services/rol.service");
-var RolModule = /** @class */ (function () {
-    function RolModule() {
-    }
-    RolModule = __decorate([
-        common_1.Module({
-            imports: [typeorm_1.TypeOrmModule.forFeature([rol_repository_1.RolRepository])],
-            controllers: [rol_controller_1.RolController],
-            providers: [rol_service_1.RolService]
-        })
-    ], RolModule);
-    return RolModule;
-}());
+const common_1 = require("@nestjs/common");
+const typeorm_1 = require("@nestjs/typeorm");
+const rol_controller_1 = require("./rol.controller");
+const rol_repository_1 = require("../../core/repositories/rol.repository");
+const rol_service_1 = require("../../core/services/rol.service");
+let RolModule = class RolModule {
+};
+RolModule = __decorate([
+    common_1.Module({
+        imports: [typeorm_1.TypeOrmModule.forFeature([rol_repository_1.RolRepository])],
+        controllers: [rol_controller_1.RolController],
+        providers: [rol_service_1.RolService]
+    })
+], RolModule);
 exports.RolModule = RolModule;
 //# sourceMappingURL=rol.module.js.map

@@ -7,33 +7,30 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppRoutingModule = void 0;
-var common_1 = require("@nestjs/common");
-var core_1 = require("@nestjs/core");
-var tarea_module_1 = require("./modules/tarea/tarea.module");
-var usuario_module_1 = require("./modules/usuario/usuario.module");
-var AppRoutingModule = /** @class */ (function () {
-    function AppRoutingModule() {
-    }
-    AppRoutingModule = __decorate([
-        common_1.Module({
-            imports: [
-                core_1.RouterModule.register([
-                    {
-                        path: 'Usuario',
-                        module: usuario_module_1.UsuarioModule
-                    },
-                    {
-                        path: 'Tarea',
-                        module: tarea_module_1.TareaModule
-                    }
-                ])
-            ],
-            exports: [
-                core_1.RouterModule
-            ]
-        })
-    ], AppRoutingModule);
-    return AppRoutingModule;
-}());
+const common_1 = require("@nestjs/common");
+const core_1 = require("@nestjs/core");
+const tarea_module_1 = require("./modules/tarea/tarea.module");
+const usuario_module_1 = require("./modules/usuario/usuario.module");
+let AppRoutingModule = class AppRoutingModule {
+};
+AppRoutingModule = __decorate([
+    common_1.Module({
+        imports: [
+            core_1.RouterModule.register([
+                {
+                    path: 'Usuario',
+                    module: usuario_module_1.UsuarioModule
+                },
+                {
+                    path: 'Tarea',
+                    module: tarea_module_1.TareaModule
+                }
+            ])
+        ],
+        exports: [
+            core_1.RouterModule
+        ]
+    })
+], AppRoutingModule);
 exports.AppRoutingModule = AppRoutingModule;
 //# sourceMappingURL=app-routing.module.js.map

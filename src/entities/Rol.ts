@@ -1,5 +1,6 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { RolesUsuarios } from "./RolesUsuarios";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+
+import { Usuario } from './Usuario';
 
 
 @Entity('rol')
@@ -15,8 +16,8 @@ export class Rol extends BaseEntity {
     })
     Nombre: string
 
-    @OneToMany(() => RolesUsuarios, (rolUsuario) => rolUsuario.Rol)
-    RolesUsuarios: RolesUsuarios[]
+    @ManyToMany(() => Usuario, (usuario) => usuario.Roles)
+    Usuarios: Usuario[]
     
 
     

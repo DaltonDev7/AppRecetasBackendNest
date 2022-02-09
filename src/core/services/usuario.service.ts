@@ -13,15 +13,24 @@ export class UsuarioService {
 
     public async getAll(): Promise<Usuario[]> {
 
-        const data  = await this.usersRepository.find()
+        const data = await this.usersRepository.createQueryBuilder('user')
+            .leftJoinAndSelect('user.Roles', 'rolesUsuario')
+            .select([
+                'user.Id  as  Id',
+                'user.Nombres as Nombres',
+                'user.Apellidos as Apellidos',
+                'rolesUsuario.Id as IdRol',
+                'rolesUsuario.Id as NombreRol'
+            ])
 
-        return await this.usersRepository.find();
+            return await data.getRawMany()
+       // return await this.usersRepository.find();
     }
 
     public async getById(Id: number) {
         const user = await this.usersRepository.findOneOrFail(Id)
-        if(user)
-            return  user
+        if (user)
+            return user
         else
             throw new NotFoundException('El Id del usuario no existe')
     }

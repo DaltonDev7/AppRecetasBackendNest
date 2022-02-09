@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { JwtAuthGuard } from '../../../core/guards/jwt.guard';
 import { TareaService } from '../../../core/services/tarea.service';
 import { Tarea } from '../../../entities/Tarea';
 
@@ -8,6 +9,7 @@ export class TareaController {
     constructor(private tareaService: TareaService) { }
 
 
+    @UseGuards(JwtAuthGuard)
     @Get('GetAll')
     async getTareas(@Req() req: Request, @Res() res: Response) {
 
@@ -25,7 +27,7 @@ export class TareaController {
     }
 
 
-    
+    @UseGuards(JwtAuthGuard)
     @Get('GetByIdUsuario/:idUsuario')
     async GetByIdUsuario(@Param('idUsuario', ParseIntPipe) id: number,  @Res() res: Response) {
 
@@ -42,7 +44,7 @@ export class TareaController {
         }
     }
 
-
+    @UseGuards(JwtAuthGuard)
     @Post('Save')
     async Save(@Body() tarea: Tarea, @Res() res: Response) {
         try {
@@ -59,7 +61,8 @@ export class TareaController {
             })
         }
     }
-
+    
+    @UseGuards(JwtAuthGuard)
     @Delete('Delete/:id')
     async Delete(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
         try {
