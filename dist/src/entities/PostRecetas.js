@@ -11,7 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostRecetas = void 0;
 const typeorm_1 = require("typeorm");
+const PasosRecetas_1 = require("./PasosRecetas");
 const Usuario_1 = require("./Usuario");
+const ImagenesReceta_1 = require("./ImagenesReceta");
+const IngredientesRecetas_1 = require("./IngredientesRecetas");
+const Nutricion_1 = require("./Nutricion");
 let PostRecetas = class PostRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -60,13 +64,6 @@ __decorate([
         type: "varchar",
     }),
     __metadata("design:type", String)
-], PostRecetas.prototype, "Nutricion", void 0);
-__decorate([
-    typeorm_1.Column({
-        nullable: true,
-        type: "varchar",
-    }),
-    __metadata("design:type", String)
 ], PostRecetas.prototype, "CantidadPersona", void 0);
 __decorate([
     typeorm_1.Column({
@@ -92,6 +89,22 @@ __decorate([
     }),
     __metadata("design:type", Usuario_1.Usuario)
 ], PostRecetas.prototype, "Usuario", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => PasosRecetas_1.PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas),
+    __metadata("design:type", Array)
+], PostRecetas.prototype, "PasosRecetas", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => ImagenesReceta_1.ImagenesRecetas, (imagen) => imagen.PostRecetas),
+    __metadata("design:type", Array)
+], PostRecetas.prototype, "ImagenesRecetas", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => IngredientesRecetas_1.IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas),
+    __metadata("design:type", Array)
+], PostRecetas.prototype, "IngredientesRecetas", void 0);
+__decorate([
+    typeorm_1.OneToOne(() => Nutricion_1.Nutricion, (nutricion) => nutricion.PostRecetas),
+    __metadata("design:type", Nutricion_1.Nutricion)
+], PostRecetas.prototype, "Nutricion", void 0);
 PostRecetas = __decorate([
     typeorm_1.Entity('postrecetas')
 ], PostRecetas);

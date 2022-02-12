@@ -1,17 +1,14 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from "typeorm";
 import { PostRecetas } from "./PostRecetas";
 
 
 
 @Entity('pasos_recetas')
-export class ImagenesRecetas extends BaseEntity {
+export class PasosRecetas extends BaseEntity {
 
 
     @PrimaryGeneratedColumn('increment')
     Id: number;
-
-
-    PostRecetas: PostRecetas
 
     @Column({
         nullable: false,
@@ -30,4 +27,15 @@ export class ImagenesRecetas extends BaseEntity {
         nullable: true
     })
     FechaModificacion: Date;
+
+
+    
+    @ManyToOne(() => PostRecetas, (postRecetas) => postRecetas.PasosRecetas, { 
+        //eager:true,
+        nullable: false 
+    })
+    @JoinColumn({
+        name: 'IdPostReceta',
+    })
+    PostRecetas: PostRecetas
 }

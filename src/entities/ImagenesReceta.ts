@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PostRecetas } from './PostRecetas';
 
 
@@ -11,6 +11,13 @@ export class ImagenesRecetas extends BaseEntity {
     Id: number;
 
 
+    @ManyToOne(() => PostRecetas, (postRecetas) => postRecetas.ImagenesRecetas, { 
+        //eager:true,
+        nullable: false 
+    })
+    @JoinColumn({
+        name: 'IdPostReceta',
+    })
     PostRecetas: PostRecetas
 
     @Column({

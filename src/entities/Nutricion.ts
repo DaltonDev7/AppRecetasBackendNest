@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PostRecetas } from './PostRecetas';
 
 
 @Entity('nutricion')
@@ -12,37 +13,37 @@ export class Nutricion extends BaseEntity {
         nullable: true,
         type: "decimal",
     })
-    Calorias:number
+    Calorias: number
 
     @Column({
         nullable: true,
         type: "decimal",
     })
-    Grasas:number
+    Grasas: number
 
     @Column({
         nullable: true,
         type: "decimal",
     })
-    Azucares:number
+    Azucares: number
 
     @Column({
         nullable: true,
         type: "decimal",
     })
-    Proteinas:number
+    Proteinas: number
 
     @Column({
         nullable: true,
         type: "decimal",
     })
-    Sodio:number
+    Sodio: number
 
     @Column({
         nullable: true,
         type: "decimal",
     })
-    Carbohidratos:number
+    Carbohidratos: number
 
     @Column({
         nullable: false,
@@ -55,5 +56,11 @@ export class Nutricion extends BaseEntity {
         nullable: true
     })
     FechaModificacion: Date;
-    
+
+
+    @OneToOne(() => PostRecetas)
+    @JoinColumn({
+        name: 'IdPostReceta'
+    })
+    PostRecetas: PostRecetas
 }

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IngredientesRecetas = void 0;
 const typeorm_1 = require("typeorm");
+const PostRecetas_1 = require("./PostRecetas");
 let IngredientesRecetas = class IngredientesRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -38,6 +39,16 @@ __decorate([
     }),
     __metadata("design:type", Date)
 ], IngredientesRecetas.prototype, "FechaModificacion", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.IngredientesRecetas, {
+        //eager:true,
+        nullable: false
+    }),
+    typeorm_1.JoinColumn({
+        name: 'IdPostReceta',
+    }),
+    __metadata("design:type", PostRecetas_1.PostRecetas)
+], IngredientesRecetas.prototype, "PostRecetas", void 0);
 IngredientesRecetas = __decorate([
     typeorm_1.Entity('ingredientesrecetas')
 ], IngredientesRecetas);

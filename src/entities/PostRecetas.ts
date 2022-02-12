@@ -1,5 +1,9 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PasosRecetas } from "./PasosRecetas";
 import { Usuario } from "./Usuario";
+import { ImagenesRecetas } from './ImagenesReceta';
+import { IngredientesRecetas } from './IngredientesRecetas';
+import { Nutricion } from './Nutricion';
 
 
 @Entity('postrecetas')
@@ -43,12 +47,6 @@ export class PostRecetas extends BaseEntity {
         nullable: true,
         type: "varchar",
     })
-    Nutricion: string
-
-    @Column({
-        nullable: true,
-        type: "varchar",
-    })
     CantidadPersona: string
 
     @Column({
@@ -76,4 +74,15 @@ export class PostRecetas extends BaseEntity {
     })
     Usuario: Usuario
 
+    @OneToMany(() => PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas)
+    PasosRecetas: PasosRecetas[]
+
+    @OneToMany(() => ImagenesRecetas, (imagen) => imagen.PostRecetas)
+    ImagenesRecetas: ImagenesRecetas[]
+
+    @OneToMany(() => IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas)
+    IngredientesRecetas: IngredientesRecetas[]
+
+    @OneToOne(()=>  Nutricion, (nutricion) => nutricion.PostRecetas)
+    Nutricion : Nutricion
 }

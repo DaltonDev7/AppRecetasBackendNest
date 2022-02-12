@@ -9,21 +9,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ImagenesRecetas = void 0;
+exports.PasosRecetas = void 0;
 const typeorm_1 = require("typeorm");
-let ImagenesRecetas = class ImagenesRecetas extends typeorm_1.BaseEntity {
+const PostRecetas_1 = require("./PostRecetas");
+let PasosRecetas = class PasosRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
     __metadata("design:type", Number)
-], ImagenesRecetas.prototype, "Id", void 0);
+], PasosRecetas.prototype, "Id", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: false,
         type: 'varchar'
     }),
     __metadata("design:type", String)
-], ImagenesRecetas.prototype, "Descripcion", void 0);
+], PasosRecetas.prototype, "Descripcion", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: false,
@@ -31,15 +32,25 @@ __decorate([
         default: () => 'CURRENT_TIMESTAMP'
     }),
     __metadata("design:type", Date)
-], ImagenesRecetas.prototype, "FechaCreacion", void 0);
+], PasosRecetas.prototype, "FechaCreacion", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: true
     }),
     __metadata("design:type", Date)
-], ImagenesRecetas.prototype, "FechaModificacion", void 0);
-ImagenesRecetas = __decorate([
+], PasosRecetas.prototype, "FechaModificacion", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.PasosRecetas, {
+        //eager:true,
+        nullable: false
+    }),
+    typeorm_1.JoinColumn({
+        name: 'IdPostReceta',
+    }),
+    __metadata("design:type", PostRecetas_1.PostRecetas)
+], PasosRecetas.prototype, "PostRecetas", void 0);
+PasosRecetas = __decorate([
     typeorm_1.Entity('pasos_recetas')
-], ImagenesRecetas);
-exports.ImagenesRecetas = ImagenesRecetas;
+], PasosRecetas);
+exports.PasosRecetas = PasosRecetas;
 //# sourceMappingURL=PasosRecetas.js.map
