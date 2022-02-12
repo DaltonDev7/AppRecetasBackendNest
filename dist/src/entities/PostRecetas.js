@@ -9,17 +9,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Usuario = void 0;
+exports.PostRecetas = void 0;
 const typeorm_1 = require("typeorm");
-const Rol_1 = require("./Rol");
-const Tarea_1 = require("./Tarea");
-const PostRecetas_1 = require("./PostRecetas");
-let Usuario = class Usuario extends typeorm_1.BaseEntity {
+const Usuario_1 = require("./Usuario");
+let PostRecetas = class PostRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn('increment'),
     __metadata("design:type", Number)
-], Usuario.prototype, "Id", void 0);
+], PostRecetas.prototype, "Id", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: false,
@@ -27,31 +25,49 @@ __decorate([
         length: 25
     }),
     __metadata("design:type", String)
-], Usuario.prototype, "Nombres", void 0);
-__decorate([
-    typeorm_1.Column({
-        nullable: true,
-        type: "varchar",
-        unique: true,
-        length: 50
-    }),
-    __metadata("design:type", String)
-], Usuario.prototype, "Email", void 0);
+], PostRecetas.prototype, "Titulo", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: true,
         type: "varchar",
     }),
     __metadata("design:type", String)
-], Usuario.prototype, "PassWord", void 0);
+], PostRecetas.prototype, "ImgPost", void 0);
 __decorate([
     typeorm_1.Column({
-        nullable: false,
+        nullable: true,
         type: "varchar",
-        length: 25
     }),
     __metadata("design:type", String)
-], Usuario.prototype, "Apellidos", void 0);
+], PostRecetas.prototype, "Descripcion", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], PostRecetas.prototype, "Pasos", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], PostRecetas.prototype, "Ingredientes", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], PostRecetas.prototype, "Nutricion", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: true,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], PostRecetas.prototype, "CantidadPersona", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: false,
@@ -59,32 +75,25 @@ __decorate([
         default: () => 'CURRENT_TIMESTAMP'
     }),
     __metadata("design:type", Date)
-], Usuario.prototype, "FechaCreacion", void 0);
+], PostRecetas.prototype, "FechaCreacion", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: true
     }),
     __metadata("design:type", Date)
-], Usuario.prototype, "FechaModificacion", void 0);
+], PostRecetas.prototype, "FechaModificacion", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => Tarea_1.Tarea, (tarea) => tarea.Usuario),
-    __metadata("design:type", Array)
-], Usuario.prototype, "Tareas", void 0);
-__decorate([
-    typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.Usuario),
-    __metadata("design:type", Array)
-], Usuario.prototype, "PostRecetas", void 0);
-__decorate([
-    typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios),
-    typeorm_1.JoinTable({
-        name: 'usuarios_roles',
-        joinColumn: { name: 'IdUsuario' },
-        inverseJoinColumn: { name: 'IdRol' }
+    typeorm_1.ManyToOne(() => Usuario_1.Usuario, (usuario) => usuario.PostRecetas, {
+        //eager:true,
+        nullable: false
     }),
-    __metadata("design:type", Array)
-], Usuario.prototype, "Roles", void 0);
-Usuario = __decorate([
-    typeorm_1.Entity('usuarios')
-], Usuario);
-exports.Usuario = Usuario;
-//# sourceMappingURL=Usuario.js.map
+    typeorm_1.JoinColumn({
+        name: 'IdUsuario',
+    }),
+    __metadata("design:type", Usuario_1.Usuario)
+], PostRecetas.prototype, "Usuario", void 0);
+PostRecetas = __decorate([
+    typeorm_1.Entity('postrecetas')
+], PostRecetas);
+exports.PostRecetas = PostRecetas;
+//# sourceMappingURL=PostRecetas.js.map

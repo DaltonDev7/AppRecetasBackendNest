@@ -1,6 +1,7 @@
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Rol } from "./Rol";
 import { Tarea } from "./Tarea";
+import { PostRecetas } from './PostRecetas';
 
 
 @Entity('usuarios')
@@ -51,6 +52,9 @@ export class Usuario extends BaseEntity {
 
     @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
     Tareas: Tarea[]
+
+    @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.Usuario)
+    PostRecetas: PostRecetas[]
 
     @ManyToMany(() => Rol, (rol) => rol.Usuarios)
     @JoinTable({
