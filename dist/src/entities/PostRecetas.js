@@ -26,17 +26,10 @@ __decorate([
     typeorm_1.Column({
         nullable: false,
         type: "varchar",
-        length: 25
+        length: 100
     }),
     __metadata("design:type", String)
 ], PostRecetas.prototype, "Titulo", void 0);
-__decorate([
-    typeorm_1.Column({
-        nullable: true,
-        type: "varchar",
-    }),
-    __metadata("design:type", String)
-], PostRecetas.prototype, "ImgPost", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: true,
@@ -47,23 +40,8 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         nullable: true,
-        type: "varchar",
     }),
-    __metadata("design:type", String)
-], PostRecetas.prototype, "Pasos", void 0);
-__decorate([
-    typeorm_1.Column({
-        nullable: true,
-        type: "varchar",
-    }),
-    __metadata("design:type", String)
-], PostRecetas.prototype, "Ingredientes", void 0);
-__decorate([
-    typeorm_1.Column({
-        nullable: true,
-        type: "varchar",
-    }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], PostRecetas.prototype, "CantidadPersona", void 0);
 __decorate([
     typeorm_1.Column({

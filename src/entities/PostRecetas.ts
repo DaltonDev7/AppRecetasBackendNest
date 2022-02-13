@@ -15,15 +15,9 @@ export class PostRecetas extends BaseEntity {
     @Column({
         nullable: false,
         type: "varchar",
-        length: 25
+        length: 100
     })
     Titulo: string
-
-    @Column({
-        nullable: true,
-        type: "varchar",
-    })
-    ImgPost: string
 
     @Column({
         nullable: true,
@@ -33,21 +27,8 @@ export class PostRecetas extends BaseEntity {
 
     @Column({
         nullable: true,
-        type: "varchar",
     })
-    Pasos: string
-
-    @Column({
-        nullable: true,
-        type: "varchar",
-    })
-    Ingredientes: string
-
-    @Column({
-        nullable: true,
-        type: "varchar",
-    })
-    CantidadPersona: string
+    CantidadPersona: number
 
     @Column({
         nullable: false,
