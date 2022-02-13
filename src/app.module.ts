@@ -8,6 +8,7 @@ import { TareaModule } from './modules/tarea/tarea.module';
 import config from '../ormconfig'
 import { AuthModule } from './modules/auth/auth.module';
 import { RolModule } from './modules/rol/rol.module';
+import { PostRecetasModule } from './modules/post-receta/post-recetas.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { RolModule } from './modules/rol/rol.module';
     UsuarioModule,
     TareaModule,
     AuthModule,
-    RolModule
+    RolModule,
+    PostRecetasModule
     // AppRoutingModule
   ],
   controllers: [AppController],

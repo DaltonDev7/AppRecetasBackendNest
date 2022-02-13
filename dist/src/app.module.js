@@ -16,6 +16,7 @@ const tarea_module_1 = require("./modules/tarea/tarea.module");
 const ormconfig_1 = require("../ormconfig");
 const auth_module_1 = require("./modules/auth/auth.module");
 const rol_module_1 = require("./modules/rol/rol.module");
+const post_recetas_module_1 = require("./modules/post-receta/post-recetas.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -25,7 +26,8 @@ AppModule = __decorate([
             usuario_module_1.UsuarioModule,
             tarea_module_1.TareaModule,
             auth_module_1.AuthModule,
-            rol_module_1.RolModule
+            rol_module_1.RolModule,
+            post_recetas_module_1.PostRecetasModule
             // AppRoutingModule
         ],
         controllers: [app_controller_1.AppController],
