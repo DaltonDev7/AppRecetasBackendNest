@@ -11,13 +11,9 @@ export class PasosRecetasRepository extends Repository<PasosRecetas> {
 
         pasos.forEach(async (item) => {
 
-            console.log(item);
-
             let pasosReceta = new PasosRecetas()
             pasosReceta.PostRecetas = post
             pasosReceta.Descripcion = item
-
-            console.log(pasosReceta);
 
             let newPaso = await this.create(pasosReceta)
             await this.save(newPaso)

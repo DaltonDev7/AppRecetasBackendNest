@@ -12,15 +12,9 @@ export class IngredienteRepository extends Repository<IngredientesRecetas> {
 
         ingredientes.forEach(async (item) => {
 
-            console.log(item);
-            
-
             let ingrediente = new IngredientesRecetas()
             ingrediente.PostRecetas = postReceta
             ingrediente.Descripcion = item
-
-            console.log(ingrediente);
-            
 
             let dataIngrediente = await this.create(ingrediente)
             await this.save(dataIngrediente)

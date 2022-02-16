@@ -9,6 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostRecetasModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
+const imagen_receta_repository_1 = require("../../core/repositories/imagen-receta.repository");
 const ingrediente_receta_repository_1 = require("../../core/repositories/ingrediente-receta.repository");
 const pasos_recetas_repository_1 = require("../../core/repositories/pasos-recetas.repository");
 const PostRecetas_repository_1 = require("../../core/repositories/PostRecetas.repository");
@@ -21,7 +22,8 @@ PostRecetasModule = __decorate([
         imports: [typeorm_1.TypeOrmModule.forFeature([
                 PostRecetas_repository_1.PostRecetaRepository,
                 ingrediente_receta_repository_1.IngredienteRepository,
-                pasos_recetas_repository_1.PasosRecetasRepository
+                pasos_recetas_repository_1.PasosRecetasRepository,
+                imagen_receta_repository_1.ImagenRecetaRepository
             ])],
         controllers: [post_receta_controller_1.PostRecetaController],
         providers: [postreceta_service_1.PostRecetaService]

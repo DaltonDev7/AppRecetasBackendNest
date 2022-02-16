@@ -55,13 +55,13 @@ export class PostRecetas extends BaseEntity {
     })
     Usuario: Usuario
 
-    @OneToMany(() => PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas)
+    @OneToMany(() => PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas, {eager :true})
     PasosRecetas: PasosRecetas[]
 
     @OneToMany(() => ImagenesRecetas, (imagen) => imagen.PostRecetas)
     ImagenesRecetas: ImagenesRecetas[]
 
-    @OneToMany(() => IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas)
+    @OneToMany(() => IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas, {eager :true})
     IngredientesRecetas: IngredientesRecetas[]
 
     @OneToOne(()=>  Nutricion, (nutricion) => nutricion.PostRecetas)

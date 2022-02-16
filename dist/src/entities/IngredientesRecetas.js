@@ -41,7 +41,7 @@ __decorate([
 ], IngredientesRecetas.prototype, "FechaModificacion", void 0);
 __decorate([
     typeorm_1.ManyToOne(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.IngredientesRecetas, {
-        //eager:true,
+        // eager:true,
         nullable: false
     }),
     typeorm_1.JoinColumn({

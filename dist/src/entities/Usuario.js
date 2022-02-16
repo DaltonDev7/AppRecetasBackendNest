@@ -30,6 +30,15 @@ __decorate([
 ], Usuario.prototype, "Nombres", void 0);
 __decorate([
     typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        unique: true,
+        length: 50
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "UserName", void 0);
+__decorate([
+    typeorm_1.Column({
         nullable: true,
         type: "varchar",
         unique: true,

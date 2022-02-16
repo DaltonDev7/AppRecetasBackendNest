@@ -31,7 +31,7 @@ export class PasosRecetas extends BaseEntity {
 
     
     @ManyToOne(() => PostRecetas, (postRecetas) => postRecetas.PasosRecetas, { 
-        //eager:true,
+       // eager:true,
         nullable: false 
     })
     @JoinColumn({

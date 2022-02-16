@@ -68,7 +68,7 @@ __decorate([
     __metadata("design:type", Usuario_1.Usuario)
 ], PostRecetas.prototype, "Usuario", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => PasosRecetas_1.PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas),
+    typeorm_1.OneToMany(() => PasosRecetas_1.PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas, { eager: true }),
     __metadata("design:type", Array)
 ], PostRecetas.prototype, "PasosRecetas", void 0);
 __decorate([
@@ -76,7 +76,7 @@ __decorate([
     __metadata("design:type", Array)
 ], PostRecetas.prototype, "ImagenesRecetas", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => IngredientesRecetas_1.IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas),
+    typeorm_1.OneToMany(() => IngredientesRecetas_1.IngredientesRecetas, (ingrediente) => ingrediente.PostRecetas, { eager: true }),
     __metadata("design:type", Array)
 ], PostRecetas.prototype, "IngredientesRecetas", void 0);
 __decorate([

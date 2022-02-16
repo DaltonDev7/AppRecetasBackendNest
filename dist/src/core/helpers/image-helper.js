@@ -16,14 +16,14 @@ const storageConfig = (nombreDestinacion) => {
         }),
         fileFilter: exports.fileFilter,
         limits: {
-            fieldSize: 5 * 1024 * 1024 //5MB
-        }
+            fieldSize: 5 * 1024 * 1024, //5MB
+        },
     };
     return congif;
 };
 exports.storageConfig = storageConfig;
 const fileFilter = (req, file, callback) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         return callback(new Error('Formato invalido'), false);
     }
     callback(null, true);

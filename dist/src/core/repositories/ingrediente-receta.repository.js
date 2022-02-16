@@ -22,11 +22,9 @@ let IngredienteRepository = class IngredienteRepository extends typeorm_1.Reposi
     saveAllIngrediente(ingredientes, postReceta) {
         return __awaiter(this, void 0, void 0, function* () {
             ingredientes.forEach((item) => __awaiter(this, void 0, void 0, function* () {
-                console.log(item);
                 let ingrediente = new IngredientesRecetas_1.IngredientesRecetas();
                 ingrediente.PostRecetas = postReceta;
                 ingrediente.Descripcion = item;
-                console.log(ingrediente);
                 let dataIngrediente = yield this.create(ingrediente);
                 yield this.save(dataIngrediente);
             }));

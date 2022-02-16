@@ -21,5 +21,9 @@ __decorate([
     class_validator_1.IsArray(),
     __metadata("design:type", Array)
 ], CreatePostRecetaDTO.prototype, "PasosRecetas", void 0);
+__decorate([
+    class_validator_1.IsArray(),
+    __metadata("design:type", Array)
+], CreatePostRecetaDTO.prototype, "Imagenes", void 0);
 exports.CreatePostRecetaDTO = CreatePostRecetaDTO;
 //# sourceMappingURL=create-postrecetas-dto.js.map

@@ -27,20 +27,45 @@ const typeorm_1 = require("@nestjs/typeorm");
 const PostRecetas_repository_1 = require("../../../core/repositories/PostRecetas.repository");
 const ingrediente_receta_repository_1 = require("../../../core/repositories/ingrediente-receta.repository");
 const pasos_recetas_repository_1 = require("../../../core/repositories/pasos-recetas.repository");
+const imagen_receta_repository_1 = require("../../../core/repositories/imagen-receta.repository");
 let PostRecetaService = class PostRecetaService {
-    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository) {
+    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository) {
         this.postRecetaRepository = postRecetaRepository;
         this.ingredienteRepository = ingredienteRepository;
         this.PasosRecetasRepository = PasosRecetasRepository;
+        this.imagenRecetasRepository = imagenRecetasRepository;
     }
     savePost(postReceta) {
         return __awaiter(this, void 0, void 0, function* () {
+            //creamos el post
             let dataPost = yield this.postRecetaRepository.create(postReceta.PostReceta);
             let postCreated = yield this.postRecetaRepository.save(dataPost);
-            console.log('creado el post');
-            console.log(postCreated);
+            //creamos ingredientes y los pasos
             yield this.ingredienteRepository.saveAllIngrediente(postReceta.Ingredientes, postCreated);
             yield this.PasosRecetasRepository.saveAllPasos(postReceta.PasosRecetas, postCreated);
+            //guardamos las imagenes
+            yield this.imagenRecetasRepository.saveImagenes(postReceta.Imagenes, postCreated);
+        });
+    }
+    getPostByIdUser(idUser) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.postRecetaRepository.find({
+                where: { Usuario: idUser }
+            });
+            //  return await data.get
+            // return await this.postRecetaRepository.createQueryBuilder('post')
+            // .leftJoinAndSelect('post.Usuario', 'usuario')
+            // .where('usuario.Id = :Id', { Id: idUser })
+            //     .select([
+            //         'post.Id as Id',
+            //         'post.Titulo as Descripcion',
+            //         'post.Descripcion as Descripcion',
+            //         'post.CantidadPersona as CantidadPersona',
+            //         'post.FechaCreacion as FechaCreacion',
+            //         'usuario.Id as IdUsuario',
+            //         'usuario.Nombres as NombreUsuario',
+            //         'usuario.Apellidos as ApellidoUsuario'
+            //     ]).getRawMany()
         });
     }
 };
@@ -49,9 +74,11 @@ PostRecetaService = __decorate([
     __param(0, typeorm_1.InjectRepository(PostRecetas_repository_1.PostRecetaRepository)),
     __param(1, typeorm_1.InjectRepository(ingrediente_receta_repository_1.IngredienteRepository)),
     __param(2, typeorm_1.InjectRepository(pasos_recetas_repository_1.PasosRecetasRepository)),
+    __param(3, typeorm_1.InjectRepository(imagen_receta_repository_1.ImagenRecetaRepository)),
     __metadata("design:paramtypes", [PostRecetas_repository_1.PostRecetaRepository,
         ingrediente_receta_repository_1.IngredienteRepository,
-        pasos_recetas_repository_1.PasosRecetasRepository])
+        pasos_recetas_repository_1.PasosRecetasRepository,
+        imagen_receta_repository_1.ImagenRecetaRepository])
 ], PostRecetaService);
 exports.PostRecetaService = PostRecetaService;
 //# sourceMappingURL=postreceta.service.js.map

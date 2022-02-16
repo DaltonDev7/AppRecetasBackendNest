@@ -18,6 +18,14 @@ export class Usuario extends BaseEntity {
     Nombres: string
 
     @Column({
+        nullable: false,
+        type: "varchar",
+        unique: true,
+        length: 50
+    })
+    UserName: string
+
+    @Column({
         nullable: true,
         type: "varchar",
         unique: true,

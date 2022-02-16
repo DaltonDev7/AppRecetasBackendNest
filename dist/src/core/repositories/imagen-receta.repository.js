@@ -15,24 +15,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PasosRecetasRepository = void 0;
+exports.ImagenRecetaRepository = void 0;
 const typeorm_1 = require("typeorm");
-const PasosRecetas_1 = require("../../entities/PasosRecetas");
-let PasosRecetasRepository = class PasosRecetasRepository extends typeorm_1.Repository {
-    saveAllPasos(pasos, post) {
+const ImagenesReceta_1 = require("../../entities/ImagenesReceta");
+let ImagenRecetaRepository = class ImagenRecetaRepository extends typeorm_1.Repository {
+    saveImagenes(files, post) {
         return __awaiter(this, void 0, void 0, function* () {
-            pasos.forEach((item) => __awaiter(this, void 0, void 0, function* () {
-                let pasosReceta = new PasosRecetas_1.PasosRecetas();
-                pasosReceta.PostRecetas = post;
-                pasosReceta.Descripcion = item;
-                let newPaso = yield this.create(pasosReceta);
-                yield this.save(newPaso);
-            }));
+            if (files != undefined) {
+                files.forEach((file) => {
+                    let imagenReceta = new ImagenesReceta_1.ImagenesRecetas();
+                    imagenReceta.NombreRuta = file.path;
+                    imagenReceta.PostRecetas = post;
+                });
+            }
         });
     }
 };
-PasosRecetasRepository = __decorate([
-    typeorm_1.EntityRepository(PasosRecetas_1.PasosRecetas)
-], PasosRecetasRepository);
-exports.PasosRecetasRepository = PasosRecetasRepository;
-//# sourceMappingURL=pasos-recetas.repository.js.map
+ImagenRecetaRepository = __decorate([
+    typeorm_1.EntityRepository(ImagenesReceta_1.ImagenesRecetas)
+], ImagenRecetaRepository);
+exports.ImagenRecetaRepository = ImagenRecetaRepository;
+//# sourceMappingURL=imagen-receta.repository.js.map

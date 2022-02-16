@@ -11,6 +11,7 @@ export const storageConfig = (nombreDestinacion: string) => {
         storage: diskStorage({
             destination: `./uploads/${nombreDestinacion}`,
             filename: (req, file, callBack) => {
+
                 const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
                 const extension: string = path.parse(file.originalname).ext
 
@@ -19,8 +20,8 @@ export const storageConfig = (nombreDestinacion: string) => {
         }),
         fileFilter: fileFilter,
         limits: {
-            fieldSize: 5 * 1024 * 1024 //5MB
-        }
+            fieldSize: 5 * 1024 * 1024, //5MB
+        },
     }
 
     return congif;
@@ -28,7 +29,7 @@ export const storageConfig = (nombreDestinacion: string) => {
 
 
 export const fileFilter = (req, file, callback) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
         return callback(new Error('Formato invalido'), false)
     }
     callback(null, true)
