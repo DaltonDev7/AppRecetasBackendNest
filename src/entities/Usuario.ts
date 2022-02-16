@@ -1,7 +1,8 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Rol } from "./Rol";
 import { Tarea } from "./Tarea";
 import { PostRecetas } from './PostRecetas';
+import { Sexo } from "./Sexo";
 
 
 @Entity('usuarios')
@@ -58,8 +59,22 @@ export class Usuario extends BaseEntity {
     })
     FechaModificacion: Date;
 
+
+
+
     @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
     Tareas: Tarea[]
+
+
+    @ManyToOne(() => Sexo, (sexo) => sexo.Usuarios, { 
+        // eager:true,
+         nullable: false 
+     })
+     @JoinColumn({
+         name: 'IdSexo',
+     })
+     Sexo: Sexo
+
 
     @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.Usuario)
     PostRecetas: PostRecetas[]

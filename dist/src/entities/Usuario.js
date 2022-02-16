@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const Rol_1 = require("./Rol");
 const Tarea_1 = require("./Tarea");
 const PostRecetas_1 = require("./PostRecetas");
+const Sexo_1 = require("./Sexo");
 let Usuario = class Usuario extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -79,6 +80,16 @@ __decorate([
     typeorm_1.OneToMany(() => Tarea_1.Tarea, (tarea) => tarea.Usuario),
     __metadata("design:type", Array)
 ], Usuario.prototype, "Tareas", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => Sexo_1.Sexo, (sexo) => sexo.Usuarios, {
+        // eager:true,
+        nullable: false
+    }),
+    typeorm_1.JoinColumn({
+        name: 'IdSexo',
+    }),
+    __metadata("design:type", Sexo_1.Sexo)
+], Usuario.prototype, "Sexo", void 0);
 __decorate([
     typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.Usuario),
     __metadata("design:type", Array)
