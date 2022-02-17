@@ -42,17 +42,16 @@ let AuthService = class AuthService {
     }
     registrarUser(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('hola');
             let existCorreo = yield this.authManagerService.verificarCorreo(usuario.Email);
-            console.log(existCorreo);
             if (existCorreo)
                 throw new common_1.BadRequestException('Este correo ya esta registrado');
+            let existUserName = yield this.usersRepository.findOne({ where: { UserName: usuario.UserName } });
+            if (existUserName)
+                throw new common_1.BadRequestException('El Username ya esta registrado');
             let passWordEncriptado = yield this.authManagerService.encriptarPassWord(usuario.PassWord);
             usuario.PassWord = passWordEncriptado;
             let newUser = yield this.usersRepository.create(usuario);
-            console.log(newUser);
             let rolUser = yield this.rolService.getById(perfil_enums_1.PerfilEnum.USUARIO);
-            console.log(rolUser);
             newUser.Roles = [rolUser];
             yield this.usersRepository.save(newUser);
         });

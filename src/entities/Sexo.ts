@@ -16,7 +16,7 @@ export class Sexo extends BaseEntity {
     })
     Nombre: string
 
-    @OneToMany(() => Usuario, (usuario) => usuario.Sexo)
+    @OneToMany(() => Usuario, (usuario) => usuario.IdSexo)
     Usuarios: Usuario[]
     
 

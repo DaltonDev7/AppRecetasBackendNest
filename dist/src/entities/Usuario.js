@@ -40,6 +40,13 @@ __decorate([
 ], Usuario.prototype, "UserName", void 0);
 __decorate([
     typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "ImagenPerfil", void 0);
+__decorate([
+    typeorm_1.Column({
         nullable: true,
         type: "varchar",
         unique: true,
@@ -89,7 +96,7 @@ __decorate([
         name: 'IdSexo',
     }),
     __metadata("design:type", Sexo_1.Sexo)
-], Usuario.prototype, "Sexo", void 0);
+], Usuario.prototype, "IdSexo", void 0);
 __decorate([
     typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.Usuario),
     __metadata("design:type", Array)

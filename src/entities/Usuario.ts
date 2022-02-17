@@ -27,6 +27,12 @@ export class Usuario extends BaseEntity {
     UserName: string
 
     @Column({
+        nullable: false,
+        type: "varchar",
+    })
+    ImagenPerfil: string
+
+    @Column({
         nullable: true,
         type: "varchar",
         unique: true,
@@ -60,8 +66,6 @@ export class Usuario extends BaseEntity {
     FechaModificacion: Date;
 
 
-
-
     @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
     Tareas: Tarea[]
 
@@ -73,7 +77,7 @@ export class Usuario extends BaseEntity {
      @JoinColumn({
          name: 'IdSexo',
      })
-     Sexo: Sexo
+     IdSexo: Sexo
 
 
     @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.Usuario)

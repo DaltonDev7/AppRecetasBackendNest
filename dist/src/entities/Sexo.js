@@ -27,7 +27,7 @@ __decorate([
     __metadata("design:type", String)
 ], Sexo.prototype, "Nombre", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => Usuario_1.Usuario, (usuario) => usuario.Sexo),
+    typeorm_1.OneToMany(() => Usuario_1.Usuario, (usuario) => usuario.IdSexo),
     __metadata("design:type", Array)
 ], Sexo.prototype, "Usuarios", void 0);
 Sexo = __decorate([

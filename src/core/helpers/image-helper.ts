@@ -11,7 +11,8 @@ export const storageConfig = (nombreDestinacion: string) => {
         storage: diskStorage({
             destination: `./uploads/${nombreDestinacion}`,
             filename: (req, file, callBack) => {
-
+                console.log(file);
+                
                 const filename: string = path.parse(file.originalname).name.replace(/\s/g, '') + uuidv4();
                 const extension: string = path.parse(file.originalname).ext
 
