@@ -35,27 +35,12 @@ let AuthController = class AuthController {
     Save(file, user, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                user.ImagenPerfil = file.path;
+                if (file)
+                    user.ImagenPerfil = file.path;
                 yield this.authService.registrarUser(user).then(() => {
                     return res.status(201).json({
                         msg: 'Usuario Registrado'
                     });
-                });
-            }
-            catch (error) {
-                return res.status(500).json({
-                    msg: 'Ha ocurrido un error',
-                    error
-                });
-            }
-        });
-    }
-    prueba(data, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                console.log(data);
-                return res.status(201).json({
-                    msg: 'Usuario Registrado'
                 });
             }
             catch (error) {
@@ -70,7 +55,6 @@ let AuthController = class AuthController {
     Login(data, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(data);
                 let token = yield this.authService.login(data);
                 return res.status(200).json(token);
             }
@@ -94,14 +78,6 @@ __decorate([
     __metadata("design:paramtypes", [Object, Usuario_1.Usuario, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "Save", null);
-__decorate([
-    common_1.Post('prueba'),
-    __param(0, common_1.Body()),
-    __param(1, common_1.Res()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Usuario_1.Usuario, Object]),
-    __metadata("design:returntype", Promise)
-], AuthController.prototype, "prueba", null);
 __decorate([
     common_1.Post('Login'),
     __param(0, common_1.Body()),

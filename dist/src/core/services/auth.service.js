@@ -61,7 +61,7 @@ let AuthService = class AuthService {
             const usuario = yield this.usersRepository.findOne({ where: { Email: payload.Email } });
             if (!usuario)
                 return new common_1.UnauthorizedException('Este correo no esta registrado');
-            let passwordVerificated = yield this.authManagerService.verificarPassword(usuario, payload);
+            let passwordVerificated = this.authManagerService.verificarPassword(payload, usuario);
             if (!passwordVerificated)
                 return new common_1.UnauthorizedException('Credenciales incorrectas');
             const userPayload = {

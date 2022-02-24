@@ -71,6 +71,12 @@ __decorate([
 ], Usuario.prototype, "Apellidos", void 0);
 __decorate([
     typeorm_1.Column({
+        nullable: true,
+    }),
+    __metadata("design:type", Boolean)
+], Usuario.prototype, "ImagenDefecto", void 0);
+__decorate([
+    typeorm_1.Column({
         nullable: false,
         type: "timestamp",
         default: () => 'CURRENT_TIMESTAMP'
@@ -102,7 +108,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Usuario.prototype, "PostRecetas", void 0);
 __decorate([
-    typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios),
+    typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios, { eager: true }),
     typeorm_1.JoinTable({
         name: 'usuarios_roles',
         joinColumn: { name: 'IdUsuario' },

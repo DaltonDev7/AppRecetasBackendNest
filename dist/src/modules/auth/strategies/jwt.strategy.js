@@ -40,13 +40,10 @@ let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport
         });
         this.usersRepository = usersRepository;
         this._configService = _configService;
-        console.log(process.env.JWT_SECRET);
     }
     validate(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(data);
             const user = yield this.usersRepository.findOne({ Email: data.Email, Id: data.Id });
-            console.log(user);
             if (!user)
                 throw new common_1.UnauthorizedException('Credenciales erroneas aaaaaas');
             return user;

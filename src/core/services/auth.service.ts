@@ -50,8 +50,8 @@ export class AuthService {
     async login(payload: SignInDTO) {
         const usuario = await this.usersRepository.findOne({ where: { Email: payload.Email } })
         if (!usuario) return new UnauthorizedException('Este correo no esta registrado')
-
-        let passwordVerificated = await this.authManagerService.verificarPassword(usuario, payload)
+        
+        let passwordVerificated =  this.authManagerService.verificarPassword(payload, usuario)
         if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
 
         const userPayload: IJwtPayload = {

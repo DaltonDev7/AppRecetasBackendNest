@@ -14,7 +14,7 @@ export class AuthManagerService {
 
     public async verificarCorreo(correo: string): Promise<Usuario> {
         console.log('entro');
-        
+
         return await this.usersRepository.findOne({
             where: { Email: correo }
         })
@@ -25,8 +25,10 @@ export class AuthManagerService {
         return await hash(password, salt)
     }
 
-    public async verificarPassword(usuario: Usuario, data: SignInDTO) {
-        return await compare(data.PassWord, usuario.PassWord)
+    public  verificarPassword(data: SignInDTO, usuario: Usuario) {
+
+    
+        return  compare(data.PassWord, usuario.PassWord)
         //if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
     }
 

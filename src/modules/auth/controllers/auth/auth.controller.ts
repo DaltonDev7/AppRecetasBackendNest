@@ -16,30 +16,13 @@ export class AuthController {
     @UseInterceptors(FileInterceptor('ImagenPerfil', storageConfig('PerfilImages')))
     async Save(@UploadedFile() file: Express.Multer.File, @Body() user: Usuario, @Res() res: Response) {
         try {
-            user.ImagenPerfil = file.path
+      
+            if(file) user.ImagenPerfil = file.path
             await this.authService.registrarUser(user).then(() => {
                 return res.status(201).json({
                     msg: 'Usuario Registrado'
                 })
             })
-        } catch (error) {
-            return res.status(500).json({
-                msg: 'Ha ocurrido un error',
-                error
-            })
-        }
-    }
-
-    @Post('prueba')
-    async prueba(@Body() data: Usuario, @Res() res: Response) {
-        try {
-            console.log(data);
-            
-   
-            return res.status(201).json({
-                msg: 'Usuario Registrado'
-        })
-
         } catch (error) {
             console.log(error);
             
@@ -51,12 +34,10 @@ export class AuthController {
     }
 
 
-
     @Post('Login')
     async Login(@Body() data: SignInDTO, @Res() res: Response) {
         try {
-            console.log(data);
-            
+
             let token = await this.authService.login(data)
             return res.status(200).json(
                 token

@@ -53,6 +53,12 @@ export class Usuario extends BaseEntity {
     })
     Apellidos: string
 
+
+    @Column({
+        nullable: true,
+    })
+    ImagenDefecto?: boolean
+
     @Column({
         nullable: false,
         type: "timestamp",
@@ -70,20 +76,20 @@ export class Usuario extends BaseEntity {
     Tareas: Tarea[]
 
 
-    @ManyToOne(() => Sexo, (sexo) => sexo.Usuarios, { 
+    @ManyToOne(() => Sexo, (sexo) => sexo.Usuarios, {
         // eager:true,
-         nullable: false 
-     })
-     @JoinColumn({
-         name: 'IdSexo',
-     })
-     IdSexo: Sexo
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'IdSexo',
+    })
+    IdSexo: Sexo
 
 
     @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.Usuario)
     PostRecetas: PostRecetas[]
 
-    @ManyToMany(() => Rol, (rol) => rol.Usuarios)
+    @ManyToMany(() => Rol, (rol) => rol.Usuarios, { eager: true })
     @JoinTable({
         name: 'usuarios_roles',
         joinColumn: { name: 'IdUsuario' },

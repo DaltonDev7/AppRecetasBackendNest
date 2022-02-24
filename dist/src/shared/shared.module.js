@@ -8,12 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SharedModule = void 0;
 const common_1 = require("@nestjs/common");
+const mapper_service_1 = require("./mapper/mapper.service");
 let SharedModule = class SharedModule {
 };
 SharedModule = __decorate([
     common_1.Module({
-        providers: [],
-        exports: []
+        providers: [mapper_service_1.MapperService],
+        exports: [mapper_service_1.MapperService]
     })
 ], SharedModule);
 exports.SharedModule = SharedModule;

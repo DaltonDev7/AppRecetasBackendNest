@@ -15,10 +15,18 @@ const ts_mapper_1 = require("ts-mapper");
 let MapperService = class MapperService extends ts_mapper_1.TypeMapper {
     constructor() {
         super();
-        this.config();
+        this.usuarioMapper();
     }
-    config() {
-        this.createMap();
+    usuarioMapper() {
+        this.createMap()
+            .map(entity => entity.Id, dto => dto.Id)
+            .map(entity => entity.Nombres, dto => dto.Nombres)
+            .map(entity => entity.Apellidos, dto => dto.Apellidos)
+            .map(entity => entity.Email, dto => dto.Email)
+            .map(entity => entity.UserName, dto => dto.UserName)
+            .map(entity => entity.ImagenPerfil, dto => dto.ImagenPerfil)
+            .map(entity => entity.ImagenDefecto, dto => dto.ImagenDefecto)
+            .map(entity => entity.Roles, dto => dto.Roles);
     }
 };
 MapperService = __decorate([
