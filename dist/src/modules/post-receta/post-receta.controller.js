@@ -27,20 +27,44 @@ const platform_express_1 = require("@nestjs/platform-express");
 const create_postrecetas_dto_1 = require("../../core/dto/create-postrecetas-dto");
 const image_helper_1 = require("../../core/helpers/image-helper");
 const postreceta_service_1 = require("./services/postreceta.service");
+const imagenes_post_service_1 = require("./services/imagenes-post.service");
 let PostRecetaController = class PostRecetaController {
-    constructor(postRecetaService) {
+    constructor(postRecetaService, imagenesPostService) {
         this.postRecetaService = postRecetaService;
+        this.imagenesPostService = imagenesPostService;
     }
-    savePost(file, payload, res) {
+    savePost(payload, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(file);
-                payload.Imagenes = file;
+                // console.log(file);
+                //   payload.Imagenes = file
                 yield this.postRecetaService.savePost(payload).then(() => {
                     return res.status(201).json({
                         msg: 'Post Creado'
                     });
                 });
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(500).json({
+                    msg: 'Ha ocurrido un error',
+                    error
+                });
+            }
+        });
+    }
+    saveImagenesPost(files, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log('recibiendo imagenes post');
+                console.log(files);
+                if (files != undefined) {
+                    this.imagenesPostService.setImagenesServices(files);
+                    return res.status(201).json({
+                        msg: 'Imagenes Guardadas'
+                    });
+                }
+                return res.status(204).json({ msg: 'Ok' });
             }
             catch (error) {
                 console.log(error);
@@ -68,14 +92,21 @@ let PostRecetaController = class PostRecetaController {
 };
 __decorate([
     common_1.Post('Save'),
-    common_1.UseInterceptors(platform_express_1.FilesInterceptor('file', 5, image_helper_1.storageConfig('postImages'))),
-    __param(0, common_1.UploadedFiles()),
-    __param(1, common_1.Body()),
-    __param(2, common_1.Res()),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, create_postrecetas_dto_1.CreatePostRecetaDTO, Object]),
+    __metadata("design:paramtypes", [create_postrecetas_dto_1.CreatePostRecetaDTO, Object]),
     __metadata("design:returntype", Promise)
 ], PostRecetaController.prototype, "savePost", null);
+__decorate([
+    common_1.Post('SaveImagenesPost'),
+    common_1.UseInterceptors(platform_express_1.FilesInterceptor('file', 5, image_helper_1.storageConfig('postImages'))),
+    __param(0, common_1.UploadedFiles()),
+    __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:returntype", Promise)
+], PostRecetaController.prototype, "saveImagenesPost", null);
 __decorate([
     common_1.Get('GetPostByUser'),
     __param(0, common_1.Req()),
@@ -86,7 +117,8 @@ __decorate([
 ], PostRecetaController.prototype, "getTareas", null);
 PostRecetaController = __decorate([
     common_1.Controller('postreceta'),
-    __metadata("design:paramtypes", [postreceta_service_1.PostRecetaService])
+    __metadata("design:paramtypes", [postreceta_service_1.PostRecetaService,
+        imagenes_post_service_1.ImagenesPostService])
 ], PostRecetaController);
 exports.PostRecetaController = PostRecetaController;
 //# sourceMappingURL=post-receta.controller.js.map

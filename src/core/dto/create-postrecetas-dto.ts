@@ -14,7 +14,4 @@ export class CreatePostRecetaDTO {
     @IsArray()
     PasosRecetas: string[]
 
-    @IsArray()
-    Imagenes?: any[]
-
 }

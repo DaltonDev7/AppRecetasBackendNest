@@ -4,6 +4,7 @@ import { Usuario } from "./Usuario";
 import { ImagenesRecetas } from './ImagenesReceta';
 import { IngredientesRecetas } from './IngredientesRecetas';
 import { Nutricion } from './Nutricion';
+import { NivelDificultad } from "./NivelDificultad";
 
 
 @Entity('postrecetas')
@@ -53,7 +54,18 @@ export class PostRecetas extends BaseEntity {
     @JoinColumn({
         name: 'IdUsuario',
     })
-    Usuario: Usuario
+    IdUsuario: Usuario
+
+    @ManyToOne(() => NivelDificultad, (nivel) => nivel.PostRecetas, {
+        // eager:true,
+        nullable: true
+    })
+    @JoinColumn({
+        name: 'IdNivelDificultad',
+    })
+    IdNivelDificultad: NivelDificultad
+
+
 
     @OneToMany(() => PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas, {eager :true})
     PasosRecetas: PasosRecetas[]

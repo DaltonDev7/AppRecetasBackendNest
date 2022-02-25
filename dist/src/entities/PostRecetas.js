@@ -16,6 +16,7 @@ const Usuario_1 = require("./Usuario");
 const ImagenesReceta_1 = require("./ImagenesReceta");
 const IngredientesRecetas_1 = require("./IngredientesRecetas");
 const Nutricion_1 = require("./Nutricion");
+const NivelDificultad_1 = require("./NivelDificultad");
 let PostRecetas = class PostRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -66,7 +67,17 @@ __decorate([
         name: 'IdUsuario',
     }),
     __metadata("design:type", Usuario_1.Usuario)
-], PostRecetas.prototype, "Usuario", void 0);
+], PostRecetas.prototype, "IdUsuario", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => NivelDificultad_1.NivelDificultad, (nivel) => nivel.PostRecetas, {
+        // eager:true,
+        nullable: true
+    }),
+    typeorm_1.JoinColumn({
+        name: 'IdNivelDificultad',
+    }),
+    __metadata("design:type", NivelDificultad_1.NivelDificultad)
+], PostRecetas.prototype, "IdNivelDificultad", void 0);
 __decorate([
     typeorm_1.OneToMany(() => PasosRecetas_1.PasosRecetas, (PasosRecetas) => PasosRecetas.PostRecetas, { eager: true }),
     __metadata("design:type", Array)

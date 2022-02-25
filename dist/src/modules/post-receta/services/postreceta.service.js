@@ -28,12 +28,14 @@ const PostRecetas_repository_1 = require("../../../core/repositories/PostRecetas
 const ingrediente_receta_repository_1 = require("../../../core/repositories/ingrediente-receta.repository");
 const pasos_recetas_repository_1 = require("../../../core/repositories/pasos-recetas.repository");
 const imagen_receta_repository_1 = require("../../../core/repositories/imagen-receta.repository");
+const imagenes_post_service_1 = require("./imagenes-post.service");
 let PostRecetaService = class PostRecetaService {
-    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository) {
+    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, imagenesPostService) {
         this.postRecetaRepository = postRecetaRepository;
         this.ingredienteRepository = ingredienteRepository;
         this.PasosRecetasRepository = PasosRecetasRepository;
         this.imagenRecetasRepository = imagenRecetasRepository;
+        this.imagenesPostService = imagenesPostService;
     }
     savePost(postReceta) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -44,7 +46,9 @@ let PostRecetaService = class PostRecetaService {
             yield this.ingredienteRepository.saveAllIngrediente(postReceta.Ingredientes, postCreated);
             yield this.PasosRecetasRepository.saveAllPasos(postReceta.PasosRecetas, postCreated);
             //guardamos las imagenes
-            yield this.imagenRecetasRepository.saveImagenes(postReceta.Imagenes, postCreated);
+            let imagenesPost = this.imagenesPostService.getImagenesPost();
+            console.log('todos las imagenes' + imagenesPost);
+            yield this.imagenRecetasRepository.saveImagenes(imagenesPost, postCreated);
         });
     }
     getPostByIdUser(idUser) {
@@ -78,7 +82,8 @@ PostRecetaService = __decorate([
     __metadata("design:paramtypes", [PostRecetas_repository_1.PostRecetaRepository,
         ingrediente_receta_repository_1.IngredienteRepository,
         pasos_recetas_repository_1.PasosRecetasRepository,
-        imagen_receta_repository_1.ImagenRecetaRepository])
+        imagen_receta_repository_1.ImagenRecetaRepository,
+        imagenes_post_service_1.ImagenesPostService])
 ], PostRecetaService);
 exports.PostRecetaService = PostRecetaService;
 //# sourceMappingURL=postreceta.service.js.map

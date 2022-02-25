@@ -9,7 +9,6 @@ const storageConfig = (nombreDestinacion) => {
         storage: multer_1.diskStorage({
             destination: `./uploads/${nombreDestinacion}`,
             filename: (req, file, callBack) => {
-                console.log(file);
                 const filename = path.parse(file.originalname).name.replace(/\s/g, '') + uuid_1.v4();
                 const extension = path.parse(file.originalname).ext;
                 callBack(null, `${filename}${extension}`);

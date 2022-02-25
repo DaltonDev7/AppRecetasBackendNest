@@ -14,6 +14,7 @@ const ingrediente_receta_repository_1 = require("../../core/repositories/ingredi
 const pasos_recetas_repository_1 = require("../../core/repositories/pasos-recetas.repository");
 const PostRecetas_repository_1 = require("../../core/repositories/PostRecetas.repository");
 const post_receta_controller_1 = require("./post-receta.controller");
+const imagenes_post_service_1 = require("./services/imagenes-post.service");
 const postreceta_service_1 = require("./services/postreceta.service");
 let PostRecetasModule = class PostRecetasModule {
 };
@@ -26,7 +27,7 @@ PostRecetasModule = __decorate([
                 imagen_receta_repository_1.ImagenRecetaRepository
             ])],
         controllers: [post_receta_controller_1.PostRecetaController],
-        providers: [postreceta_service_1.PostRecetaService]
+        providers: [postreceta_service_1.PostRecetaService, imagenes_post_service_1.ImagenesPostService]
     })
 ], PostRecetasModule);
 exports.PostRecetasModule = PostRecetasModule;

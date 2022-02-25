@@ -104,7 +104,7 @@ __decorate([
     __metadata("design:type", Sexo_1.Sexo)
 ], Usuario.prototype, "IdSexo", void 0);
 __decorate([
-    typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.Usuario),
+    typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.IdUsuario),
     __metadata("design:type", Array)
 ], Usuario.prototype, "PostRecetas", void 0);
 __decorate([

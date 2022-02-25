@@ -9,17 +9,29 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreatePostRecetaDTO = void 0;
-const class_validator_1 = require("class-validator");
-class CreatePostRecetaDTO {
-}
+exports.NivelDificultad = void 0;
+const typeorm_1 = require("typeorm");
+const PostRecetas_1 = require("./PostRecetas");
+let NivelDificultad = class NivelDificultad extends typeorm_1.BaseEntity {
+};
 __decorate([
-    class_validator_1.IsArray(),
-    __metadata("design:type", Array)
-], CreatePostRecetaDTO.prototype, "Ingredientes", void 0);
+    typeorm_1.PrimaryGeneratedColumn('increment'),
+    __metadata("design:type", Number)
+], NivelDificultad.prototype, "Id", void 0);
 __decorate([
-    class_validator_1.IsArray(),
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        length: 25
+    }),
+    __metadata("design:type", String)
+], NivelDificultad.prototype, "Nombre", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (post) => post.IdNivelDificultad),
     __metadata("design:type", Array)
-], CreatePostRecetaDTO.prototype, "PasosRecetas", void 0);
-exports.CreatePostRecetaDTO = CreatePostRecetaDTO;
-//# sourceMappingURL=create-postrecetas-dto.js.map
+], NivelDificultad.prototype, "PostRecetas", void 0);
+NivelDificultad = __decorate([
+    typeorm_1.Entity('nivel-dificultad')
+], NivelDificultad);
+exports.NivelDificultad = NivelDificultad;
+//# sourceMappingURL=NivelDificultad.js.map

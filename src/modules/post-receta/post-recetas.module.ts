@@ -5,6 +5,7 @@ import { IngredienteRepository } from '../../core/repositories/ingrediente-recet
 import { PasosRecetasRepository } from '../../core/repositories/pasos-recetas.repository';
 import { PostRecetaRepository } from '../../core/repositories/PostRecetas.repository';
 import { PostRecetaController } from './post-receta.controller';
+import { ImagenesPostService } from './services/imagenes-post.service';
 import { PostRecetaService } from './services/postreceta.service';
 
 @Module({
@@ -15,6 +16,6 @@ import { PostRecetaService } from './services/postreceta.service';
     ImagenRecetaRepository
   ])],
   controllers: [PostRecetaController],
-  providers: [PostRecetaService]
+  providers: [PostRecetaService, ImagenesPostService]
 })
 export class PostRecetasModule { }

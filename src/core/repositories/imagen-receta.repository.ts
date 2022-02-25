@@ -10,12 +10,15 @@ export class ImagenRecetaRepository extends Repository<ImagenesRecetas> {
     async saveImagenes(files: any[], post: PostRecetas) {
 
         if (files != undefined) {
-            files.forEach((file) => {
-
+            files.forEach(async (file) => {
+                console.log('iterando' + file);
+                
                 let imagenReceta = new ImagenesRecetas()
                 imagenReceta.NombreRuta = file.path
                 imagenReceta.PostRecetas = post
 
+                let newImagenes  = this.create(imagenReceta)
+                await this.save(newImagenes)
             })
         }
     }

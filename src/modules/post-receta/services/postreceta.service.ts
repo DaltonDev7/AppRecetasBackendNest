@@ -8,6 +8,7 @@ import { IngredienteRepository } from '../../../core/repositories/ingrediente-re
 import { PasosRecetas } from '../../../entities/PasosRecetas';
 import { PasosRecetasRepository } from '../../../core/repositories/pasos-recetas.repository';
 import { ImagenRecetaRepository } from '../../../core/repositories/imagen-receta.repository';
+import { ImagenesPostService } from './imagenes-post.service';
 
 @Injectable()
 export class PostRecetaService {
@@ -21,6 +22,7 @@ export class PostRecetaService {
         private readonly PasosRecetasRepository: PasosRecetasRepository,
         @InjectRepository(ImagenRecetaRepository)
         private readonly imagenRecetasRepository: ImagenRecetaRepository,
+        private imagenesPostService : ImagenesPostService
     ) { }
 
     async savePost(postReceta: CreatePostRecetaDTO) {
@@ -34,7 +36,10 @@ export class PostRecetaService {
         await this.PasosRecetasRepository.saveAllPasos(postReceta.PasosRecetas, postCreated)
 
         //guardamos las imagenes
-        await this.imagenRecetasRepository.saveImagenes(postReceta.Imagenes, postCreated)
+        let imagenesPost = this.imagenesPostService.getImagenesPost()
+        console.log('todos las imagenes' + imagenesPost);
+        
+        await this.imagenRecetasRepository.saveImagenes(imagenesPost, postCreated)
 
     }
 

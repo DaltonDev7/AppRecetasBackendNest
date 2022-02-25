@@ -86,7 +86,7 @@ export class Usuario extends BaseEntity {
     IdSexo: Sexo
 
 
-    @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.Usuario)
+    @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.IdUsuario)
     PostRecetas: PostRecetas[]
 
     @ManyToMany(() => Rol, (rol) => rol.Usuarios, { eager: true })

@@ -22,11 +22,14 @@ let ImagenRecetaRepository = class ImagenRecetaRepository extends typeorm_1.Repo
     saveImagenes(files, post) {
         return __awaiter(this, void 0, void 0, function* () {
             if (files != undefined) {
-                files.forEach((file) => {
+                files.forEach((file) => __awaiter(this, void 0, void 0, function* () {
+                    console.log('iterando' + file);
                     let imagenReceta = new ImagenesReceta_1.ImagenesRecetas();
                     imagenReceta.NombreRuta = file.path;
                     imagenReceta.PostRecetas = post;
-                });
+                    let newImagenes = this.create(imagenReceta);
+                    yield this.save(newImagenes);
+                }));
             }
         });
     }
