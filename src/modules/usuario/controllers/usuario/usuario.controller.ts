@@ -98,10 +98,10 @@ export class UsuarioController {
         }
     }
 
-    // @UseGuards(JwtAuthGuard)
+  
     @Post('GetImagenUsuario')
     GetImagenUsuario(@Body() imagenUsuarioDTO: ImagenUsuarioDTO, @Req() req: Request, @Res() res: Response) {
-      //  console.log(imagenUsuarioDTO);
+
         let contents = fs.readFileSync(imagenUsuarioDTO.ImagenPerfil, { encoding: 'base64' });
         return res.status(200).json({
             imagen: 'data:image/png;base64,' + contents
