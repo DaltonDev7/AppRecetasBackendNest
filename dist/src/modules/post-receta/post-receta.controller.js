@@ -80,6 +80,11 @@ let PostRecetaController = class PostRecetaController {
     getTareas(idUser, req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                // this.postRecetaService.getPostByIdUser(idUser).then((data) => {
+                //     return res.status(200).json({
+                //         data
+                //     })
+                // })
                 return res.status(200).json(yield this.postRecetaService.getPostByIdUser(idUser));
             }
             catch (error) {

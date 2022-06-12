@@ -29,13 +29,16 @@ const ingrediente_receta_repository_1 = require("../../../core/repositories/ingr
 const pasos_recetas_repository_1 = require("../../../core/repositories/pasos-recetas.repository");
 const imagen_receta_repository_1 = require("../../../core/repositories/imagen-receta.repository");
 const imagenes_post_service_1 = require("./imagenes-post.service");
+const Usuario_1 = require("../../../entities/Usuario");
+const Repository_1 = require("typeorm/repository/Repository");
 const fs = require('fs');
 let PostRecetaService = class PostRecetaService {
-    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, imagenesPostService) {
+    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, usersRepository, imagenesPostService) {
         this.postRecetaRepository = postRecetaRepository;
         this.ingredienteRepository = ingredienteRepository;
         this.PasosRecetasRepository = PasosRecetasRepository;
         this.imagenRecetasRepository = imagenRecetasRepository;
+        this.usersRepository = usersRepository;
         this.imagenesPostService = imagenesPostService;
     }
     savePost(postReceta) {
@@ -58,7 +61,7 @@ let PostRecetaService = class PostRecetaService {
             let postsUser = yield this.postRecetaRepository.find({
                 where: { IdUsuario: idUser }
             });
-            let postFormat = postsUser.map((post) => {
+            let postFormat = postsUser.map((post) => __awaiter(this, void 0, void 0, function* () {
                 return {
                     Id: post.Id,
                     UsuarioNombre: post.IdUsuario.Nombres,
@@ -66,11 +69,14 @@ let PostRecetaService = class PostRecetaService {
                     Titulo: post.Titulo,
                     FechaCreacion: post.FechaCreacion,
                     IdNivelDificultad: post.IdNivelDificultad,
-                    ImagenPost: this.getImagenesByPost(post).then((data) => { return data; })
+                    UsuarioImagen: yield this.getUsuarioImagen(post.IdUsuario),
+                    ImagenPost: yield this.getImagenesByPost(post)
                 };
-            });
-            console.log(postFormat);
-            return postFormat;
+            }));
+            let datosFinales = Promise.all(postFormat);
+            return datosFinales;
+            //   console.log(postFormat);
+            // return postFormat
             //  return await data.get
             // return await this.postRecetaRepository.createQueryBuilder('post')
             // .leftJoinAndSelect('post.Usuario', 'usuario')
@@ -97,13 +103,24 @@ let PostRecetaService = class PostRecetaService {
     }
     getImagenesByPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
-            let imagenes = yield this.imagenRecetasRepository.findOne({ where: { PostRecetas: post } });
+            let imagenes = yield this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } });
+            console.log('imagens del  post ' + post.Titulo);
             console.log(imagenes);
-            return new Promise((resolve, reject) => {
-                let contents = fs.readFileSync(imagenes.NombreRuta, { encoding: 'base64' });
-                resolve(contents);
-            });
-            // console.log(contents);
+            console.log(imagenes[0].Id);
+            console.log(imagenes[0].NombreRuta);
+            let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' });
+            return yield content;
+        });
+    }
+    getUsuarioImagen(usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let userData = yield this.usersRepository.findOne({ where: { Id: usuario.Id } });
+            if (userData.ImagenDefecto) {
+                return `assets/images/profile-default/${userData.ImagenPerfil}`;
+            }
+            else {
+                return 'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' });
+            }
         });
     }
 };
@@ -113,10 +130,12 @@ PostRecetaService = __decorate([
     __param(1, typeorm_1.InjectRepository(ingrediente_receta_repository_1.IngredienteRepository)),
     __param(2, typeorm_1.InjectRepository(pasos_recetas_repository_1.PasosRecetasRepository)),
     __param(3, typeorm_1.InjectRepository(imagen_receta_repository_1.ImagenRecetaRepository)),
+    __param(4, typeorm_1.InjectRepository(Usuario_1.Usuario)),
     __metadata("design:paramtypes", [PostRecetas_repository_1.PostRecetaRepository,
         ingrediente_receta_repository_1.IngredienteRepository,
         pasos_recetas_repository_1.PasosRecetasRepository,
         imagen_receta_repository_1.ImagenRecetaRepository,
+        Repository_1.Repository,
         imagenes_post_service_1.ImagenesPostService])
 ], PostRecetaService);
 exports.PostRecetaService = PostRecetaService;

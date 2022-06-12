@@ -4,6 +4,7 @@ import { ImagenRecetaRepository } from '../../core/repositories/imagen-receta.re
 import { IngredienteRepository } from '../../core/repositories/ingrediente-receta.repository';
 import { PasosRecetasRepository } from '../../core/repositories/pasos-recetas.repository';
 import { PostRecetaRepository } from '../../core/repositories/PostRecetas.repository';
+import { Usuario } from '../../entities/Usuario';
 import { PostRecetaController } from './post-receta.controller';
 import { ImagenesPostService } from './services/imagenes-post.service';
 import { PostRecetaService } from './services/postreceta.service';
@@ -13,7 +14,8 @@ import { PostRecetaService } from './services/postreceta.service';
     PostRecetaRepository,
     IngredienteRepository,
     PasosRecetasRepository,
-    ImagenRecetaRepository
+    ImagenRecetaRepository,
+    Usuario
   ])],
   controllers: [PostRecetaController],
   providers: [PostRecetaService, ImagenesPostService]

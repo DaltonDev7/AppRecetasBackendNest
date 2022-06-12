@@ -74,9 +74,18 @@ export class PostRecetaController {
 
         try {
 
+
+            // this.postRecetaService.getPostByIdUser(idUser).then((data) => {
+            //     return res.status(200).json({
+            //         data
+            //     })
+            // })
+
             return res.status(200).json(
                 await this.postRecetaService.getPostByIdUser(idUser)
             )
+
+
 
 
         } catch (error) {
