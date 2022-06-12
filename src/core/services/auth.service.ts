@@ -29,7 +29,8 @@ export class AuthService {
 
     async registrarUser(usuario: Usuario) {
 
-
+        console.log(usuario);
+        
         let existCorreo = await this.authManagerService.verificarCorreo(usuario.Email)
         if (existCorreo) throw new BadRequestException('Este correo ya esta registrado')
 

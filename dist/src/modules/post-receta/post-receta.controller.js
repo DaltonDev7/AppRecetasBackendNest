@@ -38,9 +38,10 @@ let PostRecetaController = class PostRecetaController {
             try {
                 // console.log(file);
                 //   payload.Imagenes = file
-                yield this.postRecetaService.savePost(payload).then(() => {
+                yield this.postRecetaService.savePost(payload).then((data) => {
                     return res.status(201).json({
-                        msg: 'Post Creado'
+                        msg: 'Post Creado',
+                        IdPost: data.Id
                     });
                 });
             }
@@ -53,13 +54,14 @@ let PostRecetaController = class PostRecetaController {
             }
         });
     }
-    saveImagenesPost(files, res) {
+    saveImagenesPost(files, body, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log('recibiendo imagenes post');
                 console.log(files);
+                console.log(body.IdPost);
                 if (files != undefined) {
-                    this.imagenesPostService.setImagenesServices(files);
+                    yield this.postRecetaService.saveImagenesPost(files, body.IdPost);
                     return res.status(201).json({
                         msg: 'Imagenes Guardadas'
                     });
@@ -75,10 +77,10 @@ let PostRecetaController = class PostRecetaController {
             }
         });
     }
-    getTareas(req, res) {
+    getTareas(idUser, req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return res.status(200).json(yield this.postRecetaService.getPostByIdUser(2));
+                return res.status(200).json(yield this.postRecetaService.getPostByIdUser(idUser));
             }
             catch (error) {
                 console.log(error);
@@ -102,17 +104,19 @@ __decorate([
     common_1.Post('SaveImagenesPost'),
     common_1.UseInterceptors(platform_express_1.FilesInterceptor('file', 5, image_helper_1.storageConfig('postImages'))),
     __param(0, common_1.UploadedFiles()),
-    __param(1, common_1.Res()),
+    __param(1, common_1.Body()),
+    __param(2, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Array, Object]),
+    __metadata("design:paramtypes", [Array, Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostRecetaController.prototype, "saveImagenesPost", null);
 __decorate([
-    common_1.Get('GetPostByUser'),
-    __param(0, common_1.Req()),
-    __param(1, common_1.Res()),
+    common_1.Get('GetPostByUser/:id'),
+    __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
 ], PostRecetaController.prototype, "getTareas", null);
 PostRecetaController = __decorate([

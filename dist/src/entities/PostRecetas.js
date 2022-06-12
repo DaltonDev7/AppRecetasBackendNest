@@ -60,7 +60,7 @@ __decorate([
 ], PostRecetas.prototype, "FechaModificacion", void 0);
 __decorate([
     typeorm_1.ManyToOne(() => Usuario_1.Usuario, (usuario) => usuario.PostRecetas, {
-        //eager:true,
+        eager: true,
         nullable: false
     }),
     typeorm_1.JoinColumn({

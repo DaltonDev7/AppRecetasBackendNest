@@ -72,6 +72,7 @@ __decorate([
 __decorate([
     typeorm_1.Column({
         nullable: true,
+        type: "boolean"
     }),
     __metadata("design:type", Boolean)
 ], Usuario.prototype, "ImagenDefecto", void 0);

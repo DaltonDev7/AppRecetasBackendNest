@@ -42,6 +42,7 @@ let AuthService = class AuthService {
     }
     registrarUser(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(usuario);
             let existCorreo = yield this.authManagerService.verificarCorreo(usuario.Email);
             if (existCorreo)
                 throw new common_1.BadRequestException('Este correo ya esta registrado');

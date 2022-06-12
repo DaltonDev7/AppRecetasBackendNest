@@ -56,6 +56,7 @@ export class Usuario extends BaseEntity {
 
     @Column({
         nullable: true,
+        type : "boolean"
     })
     ImagenDefecto?: boolean
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Req, Res, UploadedFile, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import { of } from 'rxjs';
@@ -24,9 +24,10 @@ export class PostRecetaController {
             // console.log(file);
 
             //   payload.Imagenes = file
-            await this.postRecetaService.savePost(payload).then(() => {
+            await this.postRecetaService.savePost(payload).then((data) => {
                 return res.status(201).json({
-                    msg: 'Post Creado'
+                    msg: 'Post Creado',
+                    IdPost: data.Id
                 })
             })
 
@@ -41,23 +42,22 @@ export class PostRecetaController {
 
     @Post('SaveImagenesPost')
     @UseInterceptors(FilesInterceptor('file', 5, storageConfig('postImages')))
-    async saveImagenesPost(@UploadedFiles() files: Express.Multer.File[], @Res() res: Response) {
+    async saveImagenesPost(@UploadedFiles() files: Express.Multer.File[], @Body() body, @Res() res: Response) {
         try {
 
             console.log('recibiendo imagenes post');
             console.log(files);
+            console.log(body.IdPost);
 
 
             if (files != undefined) {
-                this.imagenesPostService.setImagenesServices(files)
+                await this.postRecetaService.saveImagenesPost(files, body.IdPost)
                 return res.status(201).json({
                     msg: 'Imagenes Guardadas'
                 })
+
             }
-
             return res.status(204).json({ msg: 'Ok' })
-
-
         } catch (error) {
             console.log(error);
             return res.status(500).json({
@@ -69,13 +69,15 @@ export class PostRecetaController {
 
 
 
-    @Get('GetPostByUser')
-    async getTareas(@Req() req: Request, @Res() res: Response) {
+    @Get('GetPostByUser/:id')
+    async getTareas(@Param('id', ParseIntPipe) idUser: number, @Req() req: Request, @Res() res: Response) {
 
         try {
+
             return res.status(200).json(
-                await this.postRecetaService.getPostByIdUser(2)
+                await this.postRecetaService.getPostByIdUser(idUser)
             )
+
 
         } catch (error) {
             console.log(error);

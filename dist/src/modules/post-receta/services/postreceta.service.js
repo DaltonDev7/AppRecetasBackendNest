@@ -29,6 +29,7 @@ const ingrediente_receta_repository_1 = require("../../../core/repositories/ingr
 const pasos_recetas_repository_1 = require("../../../core/repositories/pasos-recetas.repository");
 const imagen_receta_repository_1 = require("../../../core/repositories/imagen-receta.repository");
 const imagenes_post_service_1 = require("./imagenes-post.service");
+const fs = require('fs');
 let PostRecetaService = class PostRecetaService {
     constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, imagenesPostService) {
         this.postRecetaRepository = postRecetaRepository;
@@ -45,17 +46,31 @@ let PostRecetaService = class PostRecetaService {
             //creamos ingredientes y los pasos
             yield this.ingredienteRepository.saveAllIngrediente(postReceta.Ingredientes, postCreated);
             yield this.PasosRecetasRepository.saveAllPasos(postReceta.PasosRecetas, postCreated);
-            //guardamos las imagenes
+            return postCreated;
+            // //guardamos las imagenes
             let imagenesPost = this.imagenesPostService.getImagenesPost();
-            console.log('todos las imagenes' + imagenesPost);
-            yield this.imagenRecetasRepository.saveImagenes(imagenesPost, postCreated);
+            // console.log('todos las imagenes' + imagenesPost);
+            //  await this.imagenRecetasRepository.saveImagenes(imagenesPost, postCreated)
         });
     }
     getPostByIdUser(idUser) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.postRecetaRepository.find({
-                where: { Usuario: idUser }
+            let postsUser = yield this.postRecetaRepository.find({
+                where: { IdUsuario: idUser }
             });
+            let postFormat = postsUser.map((post) => {
+                return {
+                    Id: post.Id,
+                    UsuarioNombre: post.IdUsuario.Nombres,
+                    UsuarioApellido: post.IdUsuario.Apellidos,
+                    Titulo: post.Titulo,
+                    FechaCreacion: post.FechaCreacion,
+                    IdNivelDificultad: post.IdNivelDificultad,
+                    ImagenPost: this.getImagenesByPost(post).then((data) => { return data; })
+                };
+            });
+            console.log(postFormat);
+            return postFormat;
             //  return await data.get
             // return await this.postRecetaRepository.createQueryBuilder('post')
             // .leftJoinAndSelect('post.Usuario', 'usuario')
@@ -70,6 +85,25 @@ let PostRecetaService = class PostRecetaService {
             //         'usuario.Nombres as NombreUsuario',
             //         'usuario.Apellidos as ApellidoUsuario'
             //     ]).getRawMany()
+        });
+    }
+    saveImagenesPost(filesImagenes, IdPost) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let postReceta = yield this.postRecetaRepository.findOne({ where: { Id: IdPost } });
+            console.log('obteniendo post');
+            console.log(postReceta);
+            return yield this.imagenRecetasRepository.saveImagenes(filesImagenes, postReceta);
+        });
+    }
+    getImagenesByPost(post) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let imagenes = yield this.imagenRecetasRepository.findOne({ where: { PostRecetas: post } });
+            console.log(imagenes);
+            return new Promise((resolve, reject) => {
+                let contents = fs.readFileSync(imagenes.NombreRuta, { encoding: 'base64' });
+                resolve(contents);
+            });
+            // console.log(contents);
         });
     }
 };
