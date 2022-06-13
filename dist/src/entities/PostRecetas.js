@@ -70,7 +70,7 @@ __decorate([
 ], PostRecetas.prototype, "IdUsuario", void 0);
 __decorate([
     typeorm_1.ManyToOne(() => NivelDificultad_1.NivelDificultad, (nivel) => nivel.PostRecetas, {
-        // eager:true,
+        eager: true,
         nullable: true
     }),
     typeorm_1.JoinColumn({

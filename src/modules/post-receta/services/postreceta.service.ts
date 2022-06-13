@@ -54,8 +54,12 @@ export class PostRecetaService {
   public async getPostByIdUser(idUser: number) {
 
     let postsUser: PostRecetas[] = await this.postRecetaRepository.find({
-      where: { IdUsuario: idUser }
+      where: { IdUsuario: idUser },
+      order: { FechaCreacion: 'DESC' }
     })
+
+    console.log('post user');
+    console.log(postsUser);
 
 
     let postFormat = postsUser.map(async (post: PostRecetas) => {
@@ -65,7 +69,8 @@ export class PostRecetaService {
         UsuarioApellido: post.IdUsuario.Apellidos,
         Titulo: post.Titulo,
         FechaCreacion: post.FechaCreacion,
-        IdNivelDificultad: post.IdNivelDificultad,
+        IdNivelDificultad: post.IdNivelDificultad?.Id,
+        NivelDificultad: post.IdNivelDificultad.Nombre,
         UsuarioImagen: await this.getUsuarioImagen(post.IdUsuario),
         ImagenPost: await this.getImagenesByPost(post)
       }
@@ -109,24 +114,24 @@ export class PostRecetaService {
   }
 
   private async getImagenesByPost(post: PostRecetas) {
-    let imagenes: ImagenesRecetas[] = await this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order : {FechaCreacion : 'ASC'}  })
+    let imagenes: ImagenesRecetas[] = await this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } })
 
     console.log('imagens del  post ' + post.Titulo);
     console.log(imagenes);
     console.log(imagenes[0].Id);
     console.log(imagenes[0].NombreRuta);
-    
-    
+
+
     let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' })
     return await content
   }
 
   private async getUsuarioImagen(usuario: Usuario) {
-    let userData = await this.usersRepository.findOne({where : { Id : usuario.Id }})
-    if(userData.ImagenDefecto){
+    let userData = await this.usersRepository.findOne({ where: { Id: usuario.Id } })
+    if (userData.ImagenDefecto) {
       return `assets/images/profile-default/${userData.ImagenPerfil}`
-    }else{
-      return  'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' })
+    } else {
+      return 'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' })
     }
   }
 

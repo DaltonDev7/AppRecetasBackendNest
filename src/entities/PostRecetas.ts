@@ -57,7 +57,7 @@ export class PostRecetas extends BaseEntity {
     IdUsuario: Usuario
 
     @ManyToOne(() => NivelDificultad, (nivel) => nivel.PostRecetas, {
-        // eager:true,
+         eager:true,
         nullable: true
     })
     @JoinColumn({

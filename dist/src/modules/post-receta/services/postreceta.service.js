@@ -59,16 +59,21 @@ let PostRecetaService = class PostRecetaService {
     getPostByIdUser(idUser) {
         return __awaiter(this, void 0, void 0, function* () {
             let postsUser = yield this.postRecetaRepository.find({
-                where: { IdUsuario: idUser }
+                where: { IdUsuario: idUser },
+                order: { FechaCreacion: 'DESC' }
             });
+            console.log('post user');
+            console.log(postsUser);
             let postFormat = postsUser.map((post) => __awaiter(this, void 0, void 0, function* () {
+                var _a;
                 return {
                     Id: post.Id,
                     UsuarioNombre: post.IdUsuario.Nombres,
                     UsuarioApellido: post.IdUsuario.Apellidos,
                     Titulo: post.Titulo,
                     FechaCreacion: post.FechaCreacion,
-                    IdNivelDificultad: post.IdNivelDificultad,
+                    IdNivelDificultad: (_a = post.IdNivelDificultad) === null || _a === void 0 ? void 0 : _a.Id,
+                    NivelDificultad: post.IdNivelDificultad.Nombre,
                     UsuarioImagen: yield this.getUsuarioImagen(post.IdUsuario),
                     ImagenPost: yield this.getImagenesByPost(post)
                 };
