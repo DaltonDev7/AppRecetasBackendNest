@@ -42,17 +42,17 @@ let AuthService = class AuthService {
     }
     registrarUser(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('hola');
+            console.log(usuario);
             let existCorreo = yield this.authManagerService.verificarCorreo(usuario.Email);
-            console.log(existCorreo);
             if (existCorreo)
                 throw new common_1.BadRequestException('Este correo ya esta registrado');
+            let existUserName = yield this.usersRepository.findOne({ where: { UserName: usuario.UserName } });
+            if (existUserName)
+                throw new common_1.BadRequestException('El Username ya esta registrado');
             let passWordEncriptado = yield this.authManagerService.encriptarPassWord(usuario.PassWord);
             usuario.PassWord = passWordEncriptado;
             let newUser = yield this.usersRepository.create(usuario);
-            console.log(newUser);
             let rolUser = yield this.rolService.getById(perfil_enums_1.PerfilEnum.USUARIO);
-            console.log(rolUser);
             newUser.Roles = [rolUser];
             yield this.usersRepository.save(newUser);
         });
@@ -62,7 +62,7 @@ let AuthService = class AuthService {
             const usuario = yield this.usersRepository.findOne({ where: { Email: payload.Email } });
             if (!usuario)
                 return new common_1.UnauthorizedException('Este correo no esta registrado');
-            let passwordVerificated = yield this.authManagerService.verificarPassword(usuario, payload);
+            let passwordVerificated = this.authManagerService.verificarPassword(payload, usuario);
             if (!passwordVerificated)
                 return new common_1.UnauthorizedException('Credenciales incorrectas');
             const userPayload = {

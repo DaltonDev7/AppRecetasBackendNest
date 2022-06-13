@@ -1,6 +1,8 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Rol } from "./Rol";
 import { Tarea } from "./Tarea";
+import { PostRecetas } from './PostRecetas';
+import { Sexo } from "./Sexo";
 
 
 @Entity('usuarios')
@@ -15,6 +17,20 @@ export class Usuario extends BaseEntity {
         length: 25
     })
     Nombres: string
+
+    @Column({
+        nullable: false,
+        type: "varchar",
+        unique: true,
+        length: 50
+    })
+    UserName: string
+
+    @Column({
+        nullable: false,
+        type: "varchar",
+    })
+    ImagenPerfil: string
 
     @Column({
         nullable: true,
@@ -37,6 +53,13 @@ export class Usuario extends BaseEntity {
     })
     Apellidos: string
 
+
+    @Column({
+        nullable: true,
+        type : "boolean"
+    })
+    ImagenDefecto?: boolean
+
     @Column({
         nullable: false,
         type: "timestamp",
@@ -49,10 +72,25 @@ export class Usuario extends BaseEntity {
     })
     FechaModificacion: Date;
 
+
     @OneToMany(() => Tarea, (tarea) => tarea.Usuario)
     Tareas: Tarea[]
 
-    @ManyToMany(() => Rol, (rol) => rol.Usuarios)
+
+    @ManyToOne(() => Sexo, (sexo) => sexo.Usuarios, {
+        // eager:true,
+        nullable: false
+    })
+    @JoinColumn({
+        name: 'IdSexo',
+    })
+    IdSexo: Sexo
+
+
+    @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.IdUsuario)
+    PostRecetas: PostRecetas[]
+
+    @ManyToMany(() => Rol, (rol) => rol.Usuarios, { eager: true })
     @JoinTable({
         name: 'usuarios_roles',
         joinColumn: { name: 'IdUsuario' },

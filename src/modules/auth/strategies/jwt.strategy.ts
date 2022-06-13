@@ -26,18 +26,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
         })
 
-        console.log(process.env.JWT_SECRET);
-
     }
 
     async validate(data: IJwtPayload) {
-        console.log(data);
 
         const user = await this.usersRepository.findOne({ Email: data.Email, Id: data.Id })
-        console.log(user);
-
         if (!user) throw new UnauthorizedException('Credenciales erroneas aaaaaas')
-
         return user;
 
     }

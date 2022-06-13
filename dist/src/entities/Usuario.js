@@ -13,6 +13,8 @@ exports.Usuario = void 0;
 const typeorm_1 = require("typeorm");
 const Rol_1 = require("./Rol");
 const Tarea_1 = require("./Tarea");
+const PostRecetas_1 = require("./PostRecetas");
+const Sexo_1 = require("./Sexo");
 let Usuario = class Usuario extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -27,6 +29,22 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], Usuario.prototype, "Nombres", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+        unique: true,
+        length: 50
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "UserName", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false,
+        type: "varchar",
+    }),
+    __metadata("design:type", String)
+], Usuario.prototype, "ImagenPerfil", void 0);
 __decorate([
     typeorm_1.Column({
         nullable: true,
@@ -53,6 +71,13 @@ __decorate([
 ], Usuario.prototype, "Apellidos", void 0);
 __decorate([
     typeorm_1.Column({
+        nullable: true,
+        type: "boolean"
+    }),
+    __metadata("design:type", Boolean)
+], Usuario.prototype, "ImagenDefecto", void 0);
+__decorate([
+    typeorm_1.Column({
         nullable: false,
         type: "timestamp",
         default: () => 'CURRENT_TIMESTAMP'
@@ -70,7 +95,21 @@ __decorate([
     __metadata("design:type", Array)
 ], Usuario.prototype, "Tareas", void 0);
 __decorate([
-    typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios),
+    typeorm_1.ManyToOne(() => Sexo_1.Sexo, (sexo) => sexo.Usuarios, {
+        // eager:true,
+        nullable: false
+    }),
+    typeorm_1.JoinColumn({
+        name: 'IdSexo',
+    }),
+    __metadata("design:type", Sexo_1.Sexo)
+], Usuario.prototype, "IdSexo", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.IdUsuario),
+    __metadata("design:type", Array)
+], Usuario.prototype, "PostRecetas", void 0);
+__decorate([
+    typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios, { eager: true }),
     typeorm_1.JoinTable({
         name: 'usuarios_roles',
         joinColumn: { name: 'IdUsuario' },

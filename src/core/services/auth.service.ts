@@ -28,22 +28,21 @@ export class AuthService {
     ) { }
 
     async registrarUser(usuario: Usuario) {
-        console.log('hola');
+
+        console.log(usuario);
         
         let existCorreo = await this.authManagerService.verificarCorreo(usuario.Email)
-        console.log(existCorreo);
-        
         if (existCorreo) throw new BadRequestException('Este correo ya esta registrado')
+
+        let existUserName = await this.usersRepository.findOne({ where: { UserName: usuario.UserName } })
+        if(existUserName) throw new BadRequestException('El Username ya esta registrado')
 
         let passWordEncriptado = await this.authManagerService.encriptarPassWord(usuario.PassWord)
         usuario.PassWord = passWordEncriptado
 
         let newUser = await this.usersRepository.create(usuario)
-        console.log(newUser);
-        
+
         let rolUser = await this.rolService.getById(PerfilEnum.USUARIO)
-        console.log(rolUser);
-        
         newUser.Roles = [rolUser]
 
         await this.usersRepository.save(newUser)
@@ -52,8 +51,8 @@ export class AuthService {
     async login(payload: SignInDTO) {
         const usuario = await this.usersRepository.findOne({ where: { Email: payload.Email } })
         if (!usuario) return new UnauthorizedException('Este correo no esta registrado')
-
-        let passwordVerificated = await this.authManagerService.verificarPassword(usuario, payload)
+        
+        let passwordVerificated =  this.authManagerService.verificarPassword(payload, usuario)
         if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
 
         const userPayload: IJwtPayload = {

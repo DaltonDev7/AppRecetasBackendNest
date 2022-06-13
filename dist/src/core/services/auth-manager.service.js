@@ -45,11 +45,9 @@ let AuthManagerService = class AuthManagerService {
             return yield bcryptjs_1.hash(password, salt);
         });
     }
-    verificarPassword(usuario, data) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield bcryptjs_1.compare(data.PassWord, usuario.PassWord);
-            //if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
-        });
+    verificarPassword(data, usuario) {
+        return bcryptjs_1.compare(data.PassWord, usuario.PassWord);
+        //if (!passwordVerificated) return new UnauthorizedException('Credenciales incorrectas')
     }
 };
 AuthManagerService = __decorate([

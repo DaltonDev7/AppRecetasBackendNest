@@ -26,13 +26,17 @@ const common_1 = require("@nestjs/common");
 const auth_service_1 = require("../../../../core/services/auth.service");
 const Usuario_1 = require("../../../../entities/Usuario");
 const Signin_dto_1 = require("../../../../core/dto/Signin-dto");
+const platform_express_1 = require("@nestjs/platform-express");
+const image_helper_1 = require("../../../../core/helpers/image-helper");
 let AuthController = class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
-    Save(user, res) {
+    Save(file, user, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                if (file)
+                    user.ImagenPerfil = file.path;
                 yield this.authService.registrarUser(user).then(() => {
                     return res.status(201).json({
                         msg: 'Usuario Registrado'
@@ -40,6 +44,7 @@ let AuthController = class AuthController {
                 });
             }
             catch (error) {
+                console.log(error);
                 return res.status(500).json({
                     msg: 'Ha ocurrido un error',
                     error
@@ -50,7 +55,6 @@ let AuthController = class AuthController {
     Login(data, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(data);
                 let token = yield this.authService.login(data);
                 return res.status(200).json(token);
             }
@@ -66,10 +70,12 @@ let AuthController = class AuthController {
 };
 __decorate([
     common_1.Post('Registrar'),
-    __param(0, common_1.Body()),
-    __param(1, common_1.Res()),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('ImagenPerfil', image_helper_1.storageConfig('PerfilImages'))),
+    __param(0, common_1.UploadedFile()),
+    __param(1, common_1.Body()),
+    __param(2, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Usuario_1.Usuario, Object]),
+    __metadata("design:paramtypes", [Object, Usuario_1.Usuario, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "Save", null);
 __decorate([

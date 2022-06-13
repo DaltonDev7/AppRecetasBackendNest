@@ -25,6 +25,9 @@ exports.UsuarioController = void 0;
 const common_1 = require("@nestjs/common");
 const usuario_service_1 = require("../../../../core/services/usuario.service");
 const Usuario_1 = require("../../../../entities/Usuario");
+const Jwt = require("jsonwebtoken");
+const imagen_usuario_dto_1 = require("../../../../core/dto/imagen-usuario-dto");
+const fs = require('fs');
 let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
         this.usuarioService = usuarioService;
@@ -43,12 +46,38 @@ let UsuarioController = class UsuarioController {
             }
         });
     }
-    getById(id, res) {
+    // @Get('GetById/:id')
+    // async getById(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
+    //     try {
+    //         return res.status(200).json(
+    //             await this.usuarioService.getById(id)
+    //         )
+    //     } catch (error) {
+    //         return res.status(500).json({
+    //             msg: 'Ha ocurrido un error',
+    //             error
+    //         })
+    //     }
+    // }
+    GetUserData(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return res.status(200).json(yield this.usuarioService.getById(id));
+                const token = req.header('Authorization');
+                if (!token) {
+                    return res.status(401).json({
+                        error: "El usuario necesita estar autenticado."
+                    });
+                }
+                let user = Jwt.verify(token, process.env.JWT_SECRET);
+                yield this.usuarioService.getById(user.Id).then((usuario) => {
+                    // if (!usuario.ImagenDefecto)
+                    //     contents = fs.readFileSync(usuario.ImagenPerfil, { encoding: 'base64' });
+                    return res.status(200).json(Object.assign({}, usuario));
+                });
+                // res.sendFile(imageFormat, { root: './uploads' }
             }
             catch (error) {
+                console.log(error);
                 return res.status(500).json({
                     msg: 'Ha ocurrido un error',
                     error
@@ -56,10 +85,15 @@ let UsuarioController = class UsuarioController {
             }
         });
     }
+    GetImagenUsuario(imagenUsuarioDTO, req, res) {
+        let contents = fs.readFileSync(imagenUsuarioDTO.ImagenPerfil, { encoding: 'base64' });
+        return res.status(200).json({
+            imagen: 'data:image/png;base64,' + contents
+        });
+    }
     Save(user, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(user);
                 yield this.usuarioService.create(user).then(() => {
                     return res.status(201).json({
                         msg: 'Usuario Creado'
@@ -120,13 +154,22 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "getUsers", null);
 __decorate([
-    common_1.Get('GetById/:id'),
-    __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    common_1.Get('GetUserData'),
+    __param(0, common_1.Req()),
     __param(1, common_1.Res()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], UsuarioController.prototype, "getById", null);
+], UsuarioController.prototype, "GetUserData", null);
+__decorate([
+    common_1.Post('GetImagenUsuario'),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [imagen_usuario_dto_1.ImagenUsuarioDTO, Object, Object]),
+    __metadata("design:returntype", void 0)
+], UsuarioController.prototype, "GetImagenUsuario", null);
 __decorate([
     common_1.Post('Save'),
     __param(0, common_1.Body()),

@@ -26,32 +26,40 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const Usuario_1 = require("../../entities/Usuario");
+const user_data_dto_1 = require("../dto/user-data-dto");
+const mapper_service_1 = require("../../shared/mapper/mapper.service");
 let UsuarioService = class UsuarioService {
-    constructor(usersRepository) {
+    constructor(usersRepository, mapperService) {
         this.usersRepository = usersRepository;
+        this.mapperService = mapperService;
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield this.usersRepository.createQueryBuilder('user')
-                .leftJoinAndSelect('user.Roles', 'rolesUsuario')
-                .select([
-                'user.Id  as  Id',
-                'user.Nombres as Nombres',
-                'user.Apellidos as Apellidos',
-                'rolesUsuario.Id as IdRol',
-                'rolesUsuario.Id as NombreRol'
-            ]);
-            return yield data.getRawMany();
+            let data = yield this.usersRepository.find();
+            return data;
+            // const data = await this.usersRepository.createQueryBuilder('user')
+            //     .leftJoinAndSelect('user.Roles', 'rolesUsuario')
+            //     .select([
+            //         'user.Id  as  Id',
+            //         'user.Nombres as Nombres',
+            //         'user.Apellidos as Apellidos',
+            //         'rolesUsuario.Id as IdRol',
+            //         'rolesUsuario.Id as NombreRol'
+            //     ])
+            //     return await data.getRawMany()
             // return await this.usersRepository.find();
         });
     }
     getById(Id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield this.usersRepository.findOneOrFail(Id);
-            if (user)
-                return user;
-            else
+            const user = yield this.usersRepository.findOne(Id);
+            if (user) {
+                return this.mapperService.map(user, new user_data_dto_1.UserDataDTO());
+                //return this.mapperService.map<Usuario, UserDataDTO>(user, new UserDataDTO())
+            }
+            else {
                 throw new common_1.NotFoundException('El Id del usuario no existe');
+            }
         });
     }
     create(usuario) {
@@ -80,7 +88,8 @@ let UsuarioService = class UsuarioService {
 UsuarioService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        mapper_service_1.MapperService])
 ], UsuarioService);
 exports.UsuarioService = UsuarioService;
 //# sourceMappingURL=usuario.service.js.map

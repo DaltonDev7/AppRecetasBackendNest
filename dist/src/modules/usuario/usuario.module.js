@@ -12,13 +12,17 @@ const typeorm_1 = require("@nestjs/typeorm");
 const usuario_service_1 = require("../../core/services/usuario.service");
 const Usuario_1 = require("../../entities/Usuario");
 const usuario_controller_1 = require("./controllers/usuario/usuario.controller");
+const shared_module_1 = require("../../shared/shared.module");
 let UsuarioModule = class UsuarioModule {
 };
 UsuarioModule = __decorate([
     common_1.Module({
-        imports: [typeorm_1.TypeOrmModule.forFeature([Usuario_1.Usuario])],
+        imports: [
+            typeorm_1.TypeOrmModule.forFeature([Usuario_1.Usuario]),
+            shared_module_1.SharedModule
+        ],
         controllers: [usuario_controller_1.UsuarioController],
-        providers: [usuario_service_1.UsuarioService]
+        providers: [usuario_service_1.UsuarioService],
     })
 ], UsuarioModule);
 exports.UsuarioModule = UsuarioModule;
