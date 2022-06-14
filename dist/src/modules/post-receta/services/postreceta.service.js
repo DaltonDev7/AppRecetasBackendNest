@@ -31,15 +31,17 @@ const imagen_receta_repository_1 = require("../../../core/repositories/imagen-re
 const imagenes_post_service_1 = require("./imagenes-post.service");
 const Usuario_1 = require("../../../entities/Usuario");
 const Repository_1 = require("typeorm/repository/Repository");
+const imagen_manager_service_1 = require("../../../core/services/imagen-manager.service");
 const fs = require('fs');
 let PostRecetaService = class PostRecetaService {
-    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, usersRepository, imagenesPostService) {
+    constructor(postRecetaRepository, ingredienteRepository, PasosRecetasRepository, imagenRecetasRepository, usersRepository, imagenesPostService, imagenManagerService) {
         this.postRecetaRepository = postRecetaRepository;
         this.ingredienteRepository = ingredienteRepository;
         this.PasosRecetasRepository = PasosRecetasRepository;
         this.imagenRecetasRepository = imagenRecetasRepository;
         this.usersRepository = usersRepository;
         this.imagenesPostService = imagenesPostService;
+        this.imagenManagerService = imagenManagerService;
     }
     savePost(postReceta) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -74,8 +76,8 @@ let PostRecetaService = class PostRecetaService {
                     FechaCreacion: post.FechaCreacion,
                     IdNivelDificultad: (_a = post.IdNivelDificultad) === null || _a === void 0 ? void 0 : _a.Id,
                     NivelDificultad: post.IdNivelDificultad.Nombre,
-                    UsuarioImagen: yield this.getUsuarioImagen(post.IdUsuario),
-                    ImagenPost: yield this.getImagenesByPost(post)
+                    UsuarioImagen: yield this.imagenManagerService.getUsuarioImagen(post.IdUsuario),
+                    ImagenPost: yield this.imagenManagerService.getImagenesByPost(post)
                 };
             }));
             let datosFinales = Promise.all(postFormat);
@@ -141,7 +143,8 @@ PostRecetaService = __decorate([
         pasos_recetas_repository_1.PasosRecetasRepository,
         imagen_receta_repository_1.ImagenRecetaRepository,
         Repository_1.Repository,
-        imagenes_post_service_1.ImagenesPostService])
+        imagenes_post_service_1.ImagenesPostService,
+        imagen_manager_service_1.ImagenManagerService])
 ], PostRecetaService);
 exports.PostRecetaService = PostRecetaService;
 //# sourceMappingURL=postreceta.service.js.map

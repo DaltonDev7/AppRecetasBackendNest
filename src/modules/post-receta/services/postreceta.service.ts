@@ -12,6 +12,7 @@ import { ImagenesPostService } from './imagenes-post.service';
 import { ImagenesRecetas } from '../../../entities/ImagenesReceta';
 import { Usuario } from '../../../entities/Usuario';
 import { Repository } from 'typeorm/repository/Repository';
+import { ImagenManagerService } from '../../../core/services/imagen-manager.service';
 const fs = require('fs');
 
 @Injectable()
@@ -28,7 +29,8 @@ export class PostRecetaService {
     private readonly imagenRecetasRepository: ImagenRecetaRepository,
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
-    private imagenesPostService: ImagenesPostService
+    private imagenesPostService: ImagenesPostService,
+    private imagenManagerService : ImagenManagerService
   ) { }
 
   async savePost(postReceta: CreatePostRecetaDTO) {
@@ -71,8 +73,8 @@ export class PostRecetaService {
         FechaCreacion: post.FechaCreacion,
         IdNivelDificultad: post.IdNivelDificultad?.Id,
         NivelDificultad: post.IdNivelDificultad.Nombre,
-        UsuarioImagen: await this.getUsuarioImagen(post.IdUsuario),
-        ImagenPost: await this.getImagenesByPost(post)
+        UsuarioImagen: await this.imagenManagerService.getUsuarioImagen(post.IdUsuario),
+        ImagenPost: await this.imagenManagerService.getImagenesByPost(post)
       }
     })
 

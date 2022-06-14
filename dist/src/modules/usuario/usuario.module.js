@@ -13,16 +13,19 @@ const usuario_service_1 = require("../../core/services/usuario.service");
 const Usuario_1 = require("../../entities/Usuario");
 const usuario_controller_1 = require("./controllers/usuario/usuario.controller");
 const shared_module_1 = require("../../shared/shared.module");
+const imagen_manager_service_1 = require("../../core/services/imagen-manager.service");
+const imagen_receta_repository_1 = require("../../core/repositories/imagen-receta.repository");
+const PostRecetas_repository_1 = require("../../core/repositories/PostRecetas.repository");
 let UsuarioModule = class UsuarioModule {
 };
 UsuarioModule = __decorate([
     common_1.Module({
         imports: [
-            typeorm_1.TypeOrmModule.forFeature([Usuario_1.Usuario]),
-            shared_module_1.SharedModule
+            typeorm_1.TypeOrmModule.forFeature([Usuario_1.Usuario, imagen_receta_repository_1.ImagenRecetaRepository, PostRecetas_repository_1.PostRecetaRepository]),
+            shared_module_1.SharedModule,
         ],
         controllers: [usuario_controller_1.UsuarioController],
-        providers: [usuario_service_1.UsuarioService],
+        providers: [usuario_service_1.UsuarioService, imagen_manager_service_1.ImagenManagerService],
     })
 ], UsuarioModule);
 exports.UsuarioModule = UsuarioModule;

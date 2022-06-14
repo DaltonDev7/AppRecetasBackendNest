@@ -13,6 +13,7 @@ const imagen_receta_repository_1 = require("../../core/repositories/imagen-recet
 const ingrediente_receta_repository_1 = require("../../core/repositories/ingrediente-receta.repository");
 const pasos_recetas_repository_1 = require("../../core/repositories/pasos-recetas.repository");
 const PostRecetas_repository_1 = require("../../core/repositories/PostRecetas.repository");
+const imagen_manager_service_1 = require("../../core/services/imagen-manager.service");
 const Usuario_1 = require("../../entities/Usuario");
 const post_receta_controller_1 = require("./post-receta.controller");
 const imagenes_post_service_1 = require("./services/imagenes-post.service");
@@ -29,7 +30,7 @@ PostRecetasModule = __decorate([
                 Usuario_1.Usuario
             ])],
         controllers: [post_receta_controller_1.PostRecetaController],
-        providers: [postreceta_service_1.PostRecetaService, imagenes_post_service_1.ImagenesPostService]
+        providers: [postreceta_service_1.PostRecetaService, imagenes_post_service_1.ImagenesPostService, imagen_manager_service_1.ImagenManagerService]
     })
 ], PostRecetasModule);
 exports.PostRecetasModule = PostRecetasModule;

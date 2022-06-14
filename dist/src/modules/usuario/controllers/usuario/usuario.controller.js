@@ -27,6 +27,7 @@ const usuario_service_1 = require("../../../../core/services/usuario.service");
 const Usuario_1 = require("../../../../entities/Usuario");
 const Jwt = require("jsonwebtoken");
 const imagen_usuario_dto_1 = require("../../../../core/dto/imagen-usuario-dto");
+const list_user_dto_1 = require("../../../../core/dto/list-user.dto");
 const fs = require('fs');
 let UsuarioController = class UsuarioController {
     constructor(usuarioService) {
@@ -144,6 +145,40 @@ let UsuarioController = class UsuarioController {
             }
         });
     }
+    GetUsers(data, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.usuarioService.getUsers(data.IdUsuario).then((data) => {
+                    return res.json({
+                        data
+                    });
+                });
+            }
+            catch (error) {
+                return res.status(500).json({
+                    msg: 'Ha ocurrido un error',
+                    error
+                });
+            }
+        });
+    }
+    BuscadorUser(data, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                yield this.usuarioService.buscadorUsuarios(data).then((data) => {
+                    return res.json({
+                        data
+                    });
+                });
+            }
+            catch (error) {
+                return res.status(500).json({
+                    msg: 'Ha ocurrido un error',
+                    error
+                });
+            }
+        });
+    }
 };
 __decorate([
     common_1.Get('GetAll'),
@@ -194,6 +229,22 @@ __decorate([
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], UsuarioController.prototype, "Delete", null);
+__decorate([
+    common_1.Post('GetUsers'),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [list_user_dto_1.GetListUserDTO, Object]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "GetUsers", null);
+__decorate([
+    common_1.Post('BuscadorUser'),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], UsuarioController.prototype, "BuscadorUser", null);
 UsuarioController = __decorate([
     common_1.Controller('usuario'),
     __metadata("design:paramtypes", [usuario_service_1.UsuarioService])

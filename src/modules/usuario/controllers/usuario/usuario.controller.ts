@@ -3,14 +3,12 @@ import { Request, Response } from 'express';
 import { UsuarioService } from '../../../../core/services/usuario.service';
 import { Usuario } from '../../../../entities/Usuario';
 import * as Jwt from "jsonwebtoken"
-import { join } from 'path';
-import { Observable, of, switchMap } from 'rxjs';
-import { createReadStream } from 'fs';
-import { buffer } from 'stream/consumers';
 import { UserDataDTO } from '../../../../core/dto/user-data-dto';
 import path = require('path');
 import { JwtAuthGuard } from '../../../../core/guards/jwt.guard';
 import { ImagenUsuarioDTO } from '../../../../core/dto/imagen-usuario-dto';
+import { GetListUserDTO } from '../../../../core/dto/list-user.dto';
+import { BuscadorUserDTO } from '../../../../core/dto/buscador-user.dto';
 const fs = require('fs');
 
 
@@ -98,7 +96,7 @@ export class UsuarioController {
         }
     }
 
-  
+
     @Post('GetImagenUsuario')
     GetImagenUsuario(@Body() imagenUsuarioDTO: ImagenUsuarioDTO, @Req() req: Request, @Res() res: Response) {
 
@@ -163,6 +161,42 @@ export class UsuarioController {
         }
     }
 
+
+
+    @Post('GetUsers')
+    async GetUsers(@Body() data: GetListUserDTO, @Res() res: Response) {
+        try {
+
+            await this.usuarioService.getUsers(data.IdUsuario).then((data) => {
+                return res.json({
+                 data
+                })
+            })
+        } catch (error) {
+            return res.status(500).json({
+                msg: 'Ha ocurrido un error',
+                error
+            })
+        }
+    }
+
+
+    @Post('BuscadorUser')
+    async BuscadorUser(@Body() data: BuscadorUserDTO, @Res() res: Response) {
+        try {
+
+            await this.usuarioService.buscadorUsuarios(data).then((data) => {
+                return res.json({
+                 data
+                })
+            })
+        } catch (error) {
+            return res.status(500).json({
+                msg: 'Ha ocurrido un error',
+                error
+            })
+        }
+    }
 
 
 

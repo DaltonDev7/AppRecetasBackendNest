@@ -28,10 +28,15 @@ const typeorm_2 = require("typeorm");
 const Usuario_1 = require("../../entities/Usuario");
 const user_data_dto_1 = require("../dto/user-data-dto");
 const mapper_service_1 = require("../../shared/mapper/mapper.service");
+const imagen_manager_service_1 = require("./imagen-manager.service");
+const PostRecetas_repository_1 = require("../repositories/PostRecetas.repository");
+const fs = require('fs');
 let UsuarioService = class UsuarioService {
-    constructor(usersRepository, mapperService) {
+    constructor(usersRepository, postRecetaRepository, mapperService, imagenManagerService) {
         this.usersRepository = usersRepository;
+        this.postRecetaRepository = postRecetaRepository;
         this.mapperService = mapperService;
+        this.imagenManagerService = imagenManagerService;
     }
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -84,12 +89,55 @@ let UsuarioService = class UsuarioService {
                 throw new common_1.NotFoundException('El Id del usuario no existe');
         });
     }
+    getUsers(idUsuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(idUsuario);
+            let usuarios = yield this.usersRepository.createQueryBuilder('user')
+                .where('user.Id != :Id', { Id: idUsuario }).getMany();
+            let dataFormat = usuarios.map((user) => __awaiter(this, void 0, void 0, function* () {
+                return {
+                    Id: user.Id,
+                    NombreCompleto: user.Nombres + ' ' + user.Apellidos,
+                    FechaCreacion: user.FechaCreacion,
+                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user),
+                    RecetasCount: yield this.countRecetasByUser(user),
+                };
+            }));
+            let datosFinales = Promise.all(dataFormat);
+            return datosFinales;
+        });
+    }
+    buscadorUsuarios(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let usuarios = yield this.usersRepository.find({ Nombres: typeorm_2.Like(`%${data.NombreUsuario}%`) });
+            let dataFormat = usuarios.map((user) => __awaiter(this, void 0, void 0, function* () {
+                return {
+                    Id: user.Id,
+                    NombreCompleto: user.Nombres + ' ' + user.Apellidos,
+                    FechaCreacion: user.FechaCreacion,
+                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user),
+                    RecetasCount: yield this.countRecetasByUser(user),
+                };
+            }));
+            let datosFinales = Promise.all(dataFormat);
+            return datosFinales;
+        });
+    }
+    countRecetasByUser(usuario) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log(usuario);
+            return yield this.postRecetaRepository.count({ where: { IdUsuario: usuario } });
+        });
+    }
 };
 UsuarioService = __decorate([
     common_1.Injectable(),
     __param(0, typeorm_1.InjectRepository(Usuario_1.Usuario)),
+    __param(1, typeorm_1.InjectRepository(PostRecetas_repository_1.PostRecetaRepository)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        mapper_service_1.MapperService])
+        PostRecetas_repository_1.PostRecetaRepository,
+        mapper_service_1.MapperService,
+        imagen_manager_service_1.ImagenManagerService])
 ], UsuarioService);
 exports.UsuarioService = UsuarioService;
 //# sourceMappingURL=usuario.service.js.map
