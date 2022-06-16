@@ -8,6 +8,7 @@ import { from, of, skip } from 'rxjs';
 import { ImagenManagerService } from './imagen-manager.service';
 import { BuscadorUserDTO } from '../dto/buscador-user.dto';
 import { PostRecetaRepository } from '../repositories/PostRecetas.repository';
+import { PostRecetaService } from '../../modules/post-receta/services/postreceta.service';
 const fs = require('fs');
 @Injectable()
 export class UsuarioService {
@@ -17,6 +18,7 @@ export class UsuarioService {
         private usersRepository: Repository<Usuario>,
         @InjectRepository(PostRecetaRepository)
         private readonly postRecetaRepository: PostRecetaRepository,
+        private postServices: PostRecetaService,
         private mapperService: MapperService,
         private imagenManagerService: ImagenManagerService
     ) { }
@@ -39,12 +41,27 @@ export class UsuarioService {
         // return await this.usersRepository.find();
     }
 
+    public async getUserByUserName(userName: string) {
+        let { Nombres, Apellidos, UserName, PostRecetas, Id, ImagenPerfil, ImagenDefecto } = await this.usersRepository.findOne({ where: { UserName: userName } })
+        
+        let PostReceta = await this.postServices.getPostByIdUser(Id);
+        
+        return {
+            Id,
+            Nombres,
+            Apellidos,
+            UserName,
+            ImagenPerfil: await this.imagenManagerService.getUsuarioImagen(Id),
+            PostReceta
+        }
+
+    }
+
     public async getById(Id: number) {
         const user = await this.usersRepository.findOne(Id)
         if (user) {
 
             return this.mapperService.map<Usuario, UserDataDTO>(user, new UserDataDTO())
-
             //return this.mapperService.map<Usuario, UserDataDTO>(user, new UserDataDTO())
 
         } else {
@@ -59,10 +76,6 @@ export class UsuarioService {
     }
 
     public async update(usuario: Usuario) {
-
-        // let updateUser = await this.usersRepository.findOneOrFail(usuario.Id)
-        // console.log(updateUser);
-
         return await this.usersRepository.update(usuario.Id, usuario)
     }
 
@@ -86,7 +99,8 @@ export class UsuarioService {
                 Id: user.Id,
                 NombreCompleto: user.Nombres + ' ' + user.Apellidos,
                 FechaCreacion: user.FechaCreacion,
-                ImgUsuario: await this.imagenManagerService.getUsuarioImagen(user),
+                UserName : user.UserName,
+                ImgUsuario: await this.imagenManagerService.getUsuarioImagen(user.Id),
                 RecetasCount: await this.countRecetasByUser(user),
             }
         })
@@ -104,7 +118,8 @@ export class UsuarioService {
                 Id: user.Id,
                 NombreCompleto: user.Nombres + ' ' + user.Apellidos,
                 FechaCreacion: user.FechaCreacion,
-                ImgUsuario: await this.imagenManagerService.getUsuarioImagen(user),
+                UserName : user.UserName,
+                ImgUsuario: await this.imagenManagerService.getUsuarioImagen(user.Id),
                 RecetasCount: await this.countRecetasByUser(user),
             }
         })
@@ -115,10 +130,7 @@ export class UsuarioService {
 
     public async countRecetasByUser(usuario: Usuario) {
         console.log(usuario);
-
         return await this.postRecetaRepository.count({ where: { IdUsuario: usuario } })
-
-
     }
 
 }

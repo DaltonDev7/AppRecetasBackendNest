@@ -17,8 +17,8 @@ export class ImagenManagerService {
     ) { }
 
 
-    public async getUsuarioImagen(usuario: Usuario) {
-        let userData = await this.usersRepository.findOne({ where: { Id: usuario.Id } })
+    public async getUsuarioImagen(IdUsuario: number) {
+        let userData = await this.usersRepository.findOne({ where: { Id: IdUsuario } })
         if (userData.ImagenDefecto) {
             return `assets/images/profile-default/${userData.ImagenPerfil}`
         } else {

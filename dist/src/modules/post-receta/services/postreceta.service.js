@@ -76,7 +76,7 @@ let PostRecetaService = class PostRecetaService {
                     FechaCreacion: post.FechaCreacion,
                     IdNivelDificultad: (_a = post.IdNivelDificultad) === null || _a === void 0 ? void 0 : _a.Id,
                     NivelDificultad: post.IdNivelDificultad.Nombre,
-                    UsuarioImagen: yield this.imagenManagerService.getUsuarioImagen(post.IdUsuario),
+                    UsuarioImagen: yield this.imagenManagerService.getUsuarioImagen(post.IdUsuario.Id),
                     ImagenPost: yield this.imagenManagerService.getImagenesByPost(post)
                 };
             }));

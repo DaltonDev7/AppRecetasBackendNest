@@ -73,7 +73,7 @@ export class PostRecetaService {
         FechaCreacion: post.FechaCreacion,
         IdNivelDificultad: post.IdNivelDificultad?.Id,
         NivelDificultad: post.IdNivelDificultad.Nombre,
-        UsuarioImagen: await this.imagenManagerService.getUsuarioImagen(post.IdUsuario),
+        UsuarioImagen: await this.imagenManagerService.getUsuarioImagen(post.IdUsuario.Id),
         ImagenPost: await this.imagenManagerService.getImagenesByPost(post)
       }
     })

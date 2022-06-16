@@ -36,6 +36,24 @@ export class UsuarioController {
         }
     }
 
+    @Get('GetUserByUserName/:userName')
+    async GetUserByUserName(@Param('userName') userName: string, @Req() req: Request, @Res() res: Response) {
+        try {
+            console.log(userName);
+
+            this.usuarioService.getUserByUserName(userName).then((data) => {
+                return res.status(200).json(data)
+            })
+
+        } catch (error) {
+            return res.status(500).json({
+                msg: 'Ha ocurrido un error',
+                error
+            })
+        }
+    }
+
+
 
     // @Get('GetById/:id')
     // async getById(@Param('id', ParseIntPipe) id: number, @Res() res: Response) {
@@ -169,7 +187,7 @@ export class UsuarioController {
 
             await this.usuarioService.getUsers(data.IdUsuario).then((data) => {
                 return res.json({
-                 data
+                    data
                 })
             })
         } catch (error) {
@@ -181,13 +199,15 @@ export class UsuarioController {
     }
 
 
+
+
     @Post('BuscadorUser')
     async BuscadorUser(@Body() data: BuscadorUserDTO, @Res() res: Response) {
         try {
 
             await this.usuarioService.buscadorUsuarios(data).then((data) => {
                 return res.json({
-                 data
+                    data
                 })
             })
         } catch (error) {

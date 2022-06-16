@@ -33,9 +33,9 @@ let ImagenManagerService = class ImagenManagerService {
         this.usersRepository = usersRepository;
         this.imagenRecetasRepository = imagenRecetasRepository;
     }
-    getUsuarioImagen(usuario) {
+    getUsuarioImagen(IdUsuario) {
         return __awaiter(this, void 0, void 0, function* () {
-            let userData = yield this.usersRepository.findOne({ where: { Id: usuario.Id } });
+            let userData = yield this.usersRepository.findOne({ where: { Id: IdUsuario } });
             if (userData.ImagenDefecto) {
                 return `assets/images/profile-default/${userData.ImagenPerfil}`;
             }

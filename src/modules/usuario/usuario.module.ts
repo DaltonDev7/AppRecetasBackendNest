@@ -9,14 +9,24 @@ import { SharedModule } from '../../shared/shared.module';
 import { ImagenManagerService } from '../../core/services/imagen-manager.service';
 import { ImagenRecetaRepository } from '../../core/repositories/imagen-receta.repository';
 import { PostRecetaRepository } from '../../core/repositories/PostRecetas.repository';
+import { PostRecetaService } from '../post-receta/services/postreceta.service';
+import { IngredienteRepository } from '../../core/repositories/ingrediente-receta.repository';
+import { PasosRecetasRepository } from '../../core/repositories/pasos-recetas.repository';
+import { ImagenesPostService } from '../post-receta/services/imagenes-post.service';
 
 
 @Module({
   imports:[
-    TypeOrmModule.forFeature([Usuario,ImagenRecetaRepository,PostRecetaRepository]),
+    TypeOrmModule.forFeature([
+      Usuario,
+      ImagenRecetaRepository,
+      PostRecetaRepository,
+      IngredienteRepository,
+      PasosRecetasRepository]),
     SharedModule,
   ],
   controllers: [UsuarioController],
-  providers: [UsuarioService, ImagenManagerService],
+  providers: [UsuarioService, ImagenManagerService,PostRecetaService,ImagenesPostService],
+
 })
 export class UsuarioModule { }

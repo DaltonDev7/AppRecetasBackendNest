@@ -30,11 +30,13 @@ const user_data_dto_1 = require("../dto/user-data-dto");
 const mapper_service_1 = require("../../shared/mapper/mapper.service");
 const imagen_manager_service_1 = require("./imagen-manager.service");
 const PostRecetas_repository_1 = require("../repositories/PostRecetas.repository");
+const postreceta_service_1 = require("../../modules/post-receta/services/postreceta.service");
 const fs = require('fs');
 let UsuarioService = class UsuarioService {
-    constructor(usersRepository, postRecetaRepository, mapperService, imagenManagerService) {
+    constructor(usersRepository, postRecetaRepository, postServices, mapperService, imagenManagerService) {
         this.usersRepository = usersRepository;
         this.postRecetaRepository = postRecetaRepository;
+        this.postServices = postServices;
         this.mapperService = mapperService;
         this.imagenManagerService = imagenManagerService;
     }
@@ -53,6 +55,20 @@ let UsuarioService = class UsuarioService {
             //     ])
             //     return await data.getRawMany()
             // return await this.usersRepository.find();
+        });
+    }
+    getUserByUserName(userName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let { Nombres, Apellidos, UserName, PostRecetas, Id, ImagenPerfil, ImagenDefecto } = yield this.usersRepository.findOne({ where: { UserName: userName } });
+            let PostReceta = yield this.postServices.getPostByIdUser(Id);
+            return {
+                Id,
+                Nombres,
+                Apellidos,
+                UserName,
+                ImagenPerfil: yield this.imagenManagerService.getUsuarioImagen(Id),
+                PostReceta
+            };
         });
     }
     getById(Id) {
@@ -75,8 +91,6 @@ let UsuarioService = class UsuarioService {
     }
     update(usuario) {
         return __awaiter(this, void 0, void 0, function* () {
-            // let updateUser = await this.usersRepository.findOneOrFail(usuario.Id)
-            // console.log(updateUser);
             return yield this.usersRepository.update(usuario.Id, usuario);
         });
     }
@@ -99,7 +113,8 @@ let UsuarioService = class UsuarioService {
                     Id: user.Id,
                     NombreCompleto: user.Nombres + ' ' + user.Apellidos,
                     FechaCreacion: user.FechaCreacion,
-                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user),
+                    UserName: user.UserName,
+                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user.Id),
                     RecetasCount: yield this.countRecetasByUser(user),
                 };
             }));
@@ -115,7 +130,8 @@ let UsuarioService = class UsuarioService {
                     Id: user.Id,
                     NombreCompleto: user.Nombres + ' ' + user.Apellidos,
                     FechaCreacion: user.FechaCreacion,
-                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user),
+                    UserName: user.UserName,
+                    ImgUsuario: yield this.imagenManagerService.getUsuarioImagen(user.Id),
                     RecetasCount: yield this.countRecetasByUser(user),
                 };
             }));
@@ -136,6 +152,7 @@ UsuarioService = __decorate([
     __param(1, typeorm_1.InjectRepository(PostRecetas_repository_1.PostRecetaRepository)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
         PostRecetas_repository_1.PostRecetaRepository,
+        postreceta_service_1.PostRecetaService,
         mapper_service_1.MapperService,
         imagen_manager_service_1.ImagenManagerService])
 ], UsuarioService);
