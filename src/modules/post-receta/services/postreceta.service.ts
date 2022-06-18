@@ -13,6 +13,10 @@ import { ImagenesRecetas } from '../../../entities/ImagenesReceta';
 import { Usuario } from '../../../entities/Usuario';
 import { Repository } from 'typeorm/repository/Repository';
 import { ImagenManagerService } from '../../../core/services/imagen-manager.service';
+import { NutricionRepository } from '../../../core/repositories/nutricion.repository';
+import { NutricionService } from '../../../core/services/nutricion.service';
+import { Nutricion } from '../../../entities/Nutricion';
+import { PostDetailDTO } from '../../../core/dto/post-detail.dto';
 const fs = require('fs');
 
 @Injectable()
@@ -21,6 +25,8 @@ export class PostRecetaService {
   constructor(
     @InjectRepository(PostRecetaRepository)
     private readonly postRecetaRepository: PostRecetaRepository,
+    @InjectRepository(NutricionRepository)
+    private readonly nutricionRepository: NutricionRepository,
     @InjectRepository(IngredienteRepository)
     private readonly ingredienteRepository: IngredienteRepository,
     @InjectRepository(PasosRecetasRepository)
@@ -30,7 +36,8 @@ export class PostRecetaService {
     @InjectRepository(Usuario)
     private usersRepository: Repository<Usuario>,
     private imagenesPostService: ImagenesPostService,
-    private imagenManagerService : ImagenManagerService
+    private imagenManagerService: ImagenManagerService,
+    private nutricionService: NutricionService
   ) { }
 
   async savePost(postReceta: CreatePostRecetaDTO) {
@@ -42,15 +49,8 @@ export class PostRecetaService {
     //creamos ingredientes y los pasos
     await this.ingredienteRepository.saveAllIngrediente(postReceta.Ingredientes, postCreated)
     await this.PasosRecetasRepository.saveAllPasos(postReceta.PasosRecetas, postCreated)
-
+    if(postReceta.Nutricion.ValorNutricional == 1) await this.nutricionService.saveNutricion(postReceta.Nutricion, postCreated)
     return postCreated;
-
-    // //guardamos las imagenes
-    let imagenesPost = this.imagenesPostService.getImagenesPost()
-    // console.log('todos las imagenes' + imagenesPost);
-
-    //  await this.imagenRecetasRepository.saveImagenes(imagenesPost, postCreated)
-
   }
 
   public async getPostByIdUser(idUser: number) {
@@ -60,10 +60,6 @@ export class PostRecetaService {
       order: { FechaCreacion: 'DESC' }
     })
 
-    console.log('post user');
-    console.log(postsUser);
-
-
     let postFormat = postsUser.map(async (post: PostRecetas) => {
       return {
         Id: post.Id,
@@ -72,9 +68,9 @@ export class PostRecetaService {
         Titulo: post.Titulo,
         FechaCreacion: post.FechaCreacion,
         IdNivelDificultad: post.IdNivelDificultad?.Id,
-        NivelDificultad: post.IdNivelDificultad.Nombre,
+        NivelDificultad: post.IdNivelDificultad,
         UsuarioImagen: await this.imagenManagerService.getUsuarioImagen(post.IdUsuario.Id),
-        ImagenPost: await this.imagenManagerService.getImagenesByPost(post)
+        ImagenPost: await this.imagenManagerService.getImagenPortadaPost(post),
       }
     })
 
@@ -105,36 +101,37 @@ export class PostRecetaService {
   }
 
   public async saveImagenesPost(filesImagenes: Express.Multer.File[], IdPost: number) {
-
     let postReceta = await this.postRecetaRepository.findOne({ where: { Id: IdPost } })
-
-    console.log('obteniendo post');
-    console.log(postReceta);
-
     return await this.imagenRecetasRepository.saveImagenes(filesImagenes, postReceta)
-
   }
 
-  private async getImagenesByPost(post: PostRecetas) {
-    let imagenes: ImagenesRecetas[] = await this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } })
+  public async getPostById(idPost: number): Promise<PostDetailDTO> {
+    let post: PostRecetas = await this.postRecetaRepository.findOne({ where: { Id: idPost } })
 
-    console.log('imagens del  post ' + post.Titulo);
-    console.log(imagenes);
-    console.log(imagenes[0].Id);
-    console.log(imagenes[0].NombreRuta);
-
-
-    let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' })
-    return await content
-  }
-
-  private async getUsuarioImagen(usuario: Usuario) {
-    let userData = await this.usersRepository.findOne({ where: { Id: usuario.Id } })
-    if (userData.ImagenDefecto) {
-      return `assets/images/profile-default/${userData.ImagenPerfil}`
-    } else {
-      return 'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' })
+    let dataFormat = {
+      Id: post.Id,
+      Descripcion: post.Descripcion,
+      Titulo: post.Titulo,
+      UsuarioNombre: post.IdUsuario.Nombres,
+      UsuarioApellido: post.IdUsuario.Apellidos,
+      FechaCreacion: post.FechaCreacion,
+      NivelDificultad: post.IdNivelDificultad,
+      PasosRecetas: post.PasosRecetas,
+      Ingredientes: post.IngredientesRecetas,
+      CantidadPersona: post.CantidadPersona,
+      UsuarioImagen: await this.imagenManagerService.getUsuarioImagen(post.IdUsuario.Id),
+      ImagenesPost: await this.imagenManagerService.getImagenesByPost(post),
+      Nutricion: await this.nutricionService.getNutricionByPost(post)
     }
+
+    //  let datosFinales = Promise.all(dataFormat);
+    return dataFormat
   }
+
+  public async getNutricionByPost(post: PostRecetas) {
+    return
+  }
+
+
 
 }

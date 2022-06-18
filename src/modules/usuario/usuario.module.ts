@@ -13,20 +13,23 @@ import { PostRecetaService } from '../post-receta/services/postreceta.service';
 import { IngredienteRepository } from '../../core/repositories/ingrediente-receta.repository';
 import { PasosRecetasRepository } from '../../core/repositories/pasos-recetas.repository';
 import { ImagenesPostService } from '../post-receta/services/imagenes-post.service';
+import { NutricionRepository } from '../../core/repositories/nutricion.repository';
+import { NutricionService } from '../../core/services/nutricion.service';
 
 
 @Module({
-  imports:[
+  imports: [
     TypeOrmModule.forFeature([
       Usuario,
       ImagenRecetaRepository,
       PostRecetaRepository,
+      NutricionRepository,
       IngredienteRepository,
       PasosRecetasRepository]),
     SharedModule,
   ],
   controllers: [UsuarioController],
-  providers: [UsuarioService, ImagenManagerService,PostRecetaService,ImagenesPostService],
+  providers: [UsuarioService, ImagenManagerService, PostRecetaService, ImagenesPostService, NutricionService],
 
 })
 export class UsuarioModule { }

@@ -19,25 +19,31 @@ export class ImagenManagerService {
 
     public async getUsuarioImagen(IdUsuario: number) {
         let userData = await this.usersRepository.findOne({ where: { Id: IdUsuario } })
-        if (userData.ImagenDefecto) {
+        if (userData.ImagenDefecto)
             return `assets/images/profile-default/${userData.ImagenPerfil}`
-        } else {
+        else
             return 'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' })
-        }
+
+    }
+
+    public async getImagenPortadaPost(post: PostRecetas) {
+        let imagenes: ImagenesRecetas[] = await this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } })
+        let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' })
+        return await content
     }
 
     public async getImagenesByPost(post: PostRecetas) {
         let imagenes: ImagenesRecetas[] = await this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } })
-    
-        console.log('imagens del  post ' + post.Titulo);
-        console.log(imagenes);
-        console.log(imagenes[0].Id);
-        console.log(imagenes[0].NombreRuta);
-    
-    
-        let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' })
-        return await content
-      }
+
+        let imagenesPost: any[] = []
+        imagenes.map((img: ImagenesRecetas) => {
+            let content = 'data:image/png;base64,' + fs.readFileSync(img.NombreRuta, { encoding: 'base64' })
+            imagenesPost.push({ previewImageSrc: content })
+        })
+
+        return imagenesPost
+
+    }
 
 
 }

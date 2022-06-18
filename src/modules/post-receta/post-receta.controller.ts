@@ -21,9 +21,7 @@ export class PostRecetaController {
     async savePost(@Body() payload: CreatePostRecetaDTO, @Res() res: Response) {
 
         try {
-            // console.log(file);
 
-            //   payload.Imagenes = file
             await this.postRecetaService.savePost(payload).then((data) => {
                 return res.status(201).json({
                     msg: 'Post Creado',
@@ -32,7 +30,7 @@ export class PostRecetaController {
             })
 
         } catch (error) {
-            console.log(error);
+
             return res.status(500).json({
                 msg: 'Ha ocurrido un error',
                 error
@@ -45,11 +43,6 @@ export class PostRecetaController {
     async saveImagenesPost(@UploadedFiles() files: Express.Multer.File[], @Body() body, @Res() res: Response) {
         try {
 
-            console.log('recibiendo imagenes post');
-            console.log(files);
-            console.log(body.IdPost);
-
-
             if (files != undefined) {
                 await this.postRecetaService.saveImagenesPost(files, body.IdPost)
                 return res.status(201).json({
@@ -59,7 +52,7 @@ export class PostRecetaController {
             }
             return res.status(204).json({ msg: 'Ok' })
         } catch (error) {
-            console.log(error);
+
             return res.status(500).json({
                 msg: 'Ha ocurrido un error',
                 error
@@ -70,27 +63,33 @@ export class PostRecetaController {
 
 
     @Get('GetPostByUser/:id')
-    async getTareas(@Param('id', ParseIntPipe) idUser: number, @Req() req: Request, @Res() res: Response) {
+    async GetPostByUser(@Param('id', ParseIntPipe) idUser: number, @Req() req: Request, @Res() res: Response) {
 
         try {
-
-
             // this.postRecetaService.getPostByIdUser(idUser).then((data) => {
             //     return res.status(200).json({
             //         data
             //     })
             // })
-
             return res.status(200).json(
                 await this.postRecetaService.getPostByIdUser(idUser)
             )
-
-
-
-
         } catch (error) {
-            console.log(error);
+            return res.status(500).json({
+                msg: 'Ha ocurrido un error',
+                error
+            })
+        }
+    }
 
+    @Get('GetPostById/:id')
+    async GetPostById(@Param('id', ParseIntPipe) idPost: number, @Req() req: Request, @Res() res: Response) {
+
+        try {
+            this.postRecetaService.getPostById(idPost).then((data) => {
+                return res.status(200).json(data)
+            })
+        } catch (error) {
             return res.status(500).json({
                 msg: 'Ha ocurrido un error',
                 error

@@ -36,23 +36,28 @@ let ImagenManagerService = class ImagenManagerService {
     getUsuarioImagen(IdUsuario) {
         return __awaiter(this, void 0, void 0, function* () {
             let userData = yield this.usersRepository.findOne({ where: { Id: IdUsuario } });
-            if (userData.ImagenDefecto) {
+            if (userData.ImagenDefecto)
                 return `assets/images/profile-default/${userData.ImagenPerfil}`;
-            }
-            else {
+            else
                 return 'data:image/png;base64,' + fs.readFileSync(userData.ImagenPerfil, { encoding: 'base64' });
-            }
+        });
+    }
+    getImagenPortadaPost(post) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let imagenes = yield this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } });
+            let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' });
+            return yield content;
         });
     }
     getImagenesByPost(post) {
         return __awaiter(this, void 0, void 0, function* () {
             let imagenes = yield this.imagenRecetasRepository.find({ where: { PostRecetas: post }, order: { FechaCreacion: 'ASC' } });
-            console.log('imagens del  post ' + post.Titulo);
-            console.log(imagenes);
-            console.log(imagenes[0].Id);
-            console.log(imagenes[0].NombreRuta);
-            let content = 'data:image/png;base64,' + fs.readFileSync(imagenes[0].NombreRuta, { encoding: 'base64' });
-            return yield content;
+            let imagenesPost = [];
+            imagenes.map((img) => {
+                let content = 'data:image/png;base64,' + fs.readFileSync(img.NombreRuta, { encoding: 'base64' });
+                imagenesPost.push({ previewImageSrc: content });
+            });
+            return imagenesPost;
         });
     }
 };

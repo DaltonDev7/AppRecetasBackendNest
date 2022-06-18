@@ -36,8 +36,6 @@ let PostRecetaController = class PostRecetaController {
     savePost(payload, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                // console.log(file);
-                //   payload.Imagenes = file
                 yield this.postRecetaService.savePost(payload).then((data) => {
                     return res.status(201).json({
                         msg: 'Post Creado',
@@ -46,7 +44,6 @@ let PostRecetaController = class PostRecetaController {
                 });
             }
             catch (error) {
-                console.log(error);
                 return res.status(500).json({
                     msg: 'Ha ocurrido un error',
                     error
@@ -57,9 +54,6 @@ let PostRecetaController = class PostRecetaController {
     saveImagenesPost(files, body, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('recibiendo imagenes post');
-                console.log(files);
-                console.log(body.IdPost);
                 if (files != undefined) {
                     yield this.postRecetaService.saveImagenesPost(files, body.IdPost);
                     return res.status(201).json({
@@ -69,7 +63,6 @@ let PostRecetaController = class PostRecetaController {
                 return res.status(204).json({ msg: 'Ok' });
             }
             catch (error) {
-                console.log(error);
                 return res.status(500).json({
                     msg: 'Ha ocurrido un error',
                     error
@@ -77,7 +70,7 @@ let PostRecetaController = class PostRecetaController {
             }
         });
     }
-    getTareas(idUser, req, res) {
+    GetPostByUser(idUser, req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // this.postRecetaService.getPostByIdUser(idUser).then((data) => {
@@ -88,7 +81,21 @@ let PostRecetaController = class PostRecetaController {
                 return res.status(200).json(yield this.postRecetaService.getPostByIdUser(idUser));
             }
             catch (error) {
-                console.log(error);
+                return res.status(500).json({
+                    msg: 'Ha ocurrido un error',
+                    error
+                });
+            }
+        });
+    }
+    GetPostById(idPost, req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                this.postRecetaService.getPostById(idPost).then((data) => {
+                    return res.status(200).json(data);
+                });
+            }
+            catch (error) {
                 return res.status(500).json({
                     msg: 'Ha ocurrido un error',
                     error
@@ -123,7 +130,16 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object, Object]),
     __metadata("design:returntype", Promise)
-], PostRecetaController.prototype, "getTareas", null);
+], PostRecetaController.prototype, "GetPostByUser", null);
+__decorate([
+    common_1.Get('GetPostById/:id'),
+    __param(0, common_1.Param('id', common_1.ParseIntPipe)),
+    __param(1, common_1.Req()),
+    __param(2, common_1.Res()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object, Object]),
+    __metadata("design:returntype", Promise)
+], PostRecetaController.prototype, "GetPostById", null);
 PostRecetaController = __decorate([
     common_1.Controller('postreceta'),
     __metadata("design:paramtypes", [postreceta_service_1.PostRecetaService,

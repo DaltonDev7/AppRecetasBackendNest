@@ -20,6 +20,8 @@ const postreceta_service_1 = require("../post-receta/services/postreceta.service
 const ingrediente_receta_repository_1 = require("../../core/repositories/ingrediente-receta.repository");
 const pasos_recetas_repository_1 = require("../../core/repositories/pasos-recetas.repository");
 const imagenes_post_service_1 = require("../post-receta/services/imagenes-post.service");
+const nutricion_repository_1 = require("../../core/repositories/nutricion.repository");
+const nutricion_service_1 = require("../../core/services/nutricion.service");
 let UsuarioModule = class UsuarioModule {
 };
 UsuarioModule = __decorate([
@@ -29,13 +31,14 @@ UsuarioModule = __decorate([
                 Usuario_1.Usuario,
                 imagen_receta_repository_1.ImagenRecetaRepository,
                 PostRecetas_repository_1.PostRecetaRepository,
+                nutricion_repository_1.NutricionRepository,
                 ingrediente_receta_repository_1.IngredienteRepository,
                 pasos_recetas_repository_1.PasosRecetasRepository
             ]),
             shared_module_1.SharedModule,
         ],
         controllers: [usuario_controller_1.UsuarioController],
-        providers: [usuario_service_1.UsuarioService, imagen_manager_service_1.ImagenManagerService, postreceta_service_1.PostRecetaService, imagenes_post_service_1.ImagenesPostService],
+        providers: [usuario_service_1.UsuarioService, imagen_manager_service_1.ImagenManagerService, postreceta_service_1.PostRecetaService, imagenes_post_service_1.ImagenesPostService, nutricion_service_1.NutricionService],
     })
 ], UsuarioModule);
 exports.UsuarioModule = UsuarioModule;
