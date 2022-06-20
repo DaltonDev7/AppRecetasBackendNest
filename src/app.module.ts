@@ -9,6 +9,7 @@ import config from '../ormconfig'
 import { AuthModule } from './modules/auth/auth.module';
 import { RolModule } from './modules/rol/rol.module';
 import { PostRecetasModule } from './modules/post-receta/post-recetas.module';
+import { CalificacionModule } from './modules/calificacion/calificacion.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { PostRecetasModule } from './modules/post-receta/post-recetas.module';
     TareaModule,
     AuthModule,
     RolModule,
-    PostRecetasModule
+    PostRecetasModule,
+    CalificacionModule
     // AppRoutingModule
   ],
   controllers: [AppController],

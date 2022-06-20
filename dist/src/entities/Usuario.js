@@ -15,6 +15,7 @@ const Rol_1 = require("./Rol");
 const Tarea_1 = require("./Tarea");
 const PostRecetas_1 = require("./PostRecetas");
 const Sexo_1 = require("./Sexo");
+const PostCalificaciones_1 = require("./PostCalificaciones");
 let Usuario = class Usuario extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -108,6 +109,10 @@ __decorate([
     typeorm_1.OneToMany(() => PostRecetas_1.PostRecetas, (postRecetas) => postRecetas.IdUsuario),
     __metadata("design:type", Array)
 ], Usuario.prototype, "PostRecetas", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => PostCalificaciones_1.PostCalificaciones, (calificacion) => calificacion.Usuario),
+    __metadata("design:type", Array)
+], Usuario.prototype, "PostCalificaciones", void 0);
 __decorate([
     typeorm_1.ManyToMany(() => Rol_1.Rol, (rol) => rol.Usuarios, { eager: true }),
     typeorm_1.JoinTable({

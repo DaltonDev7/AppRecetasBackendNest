@@ -3,6 +3,7 @@ import { Rol } from "./Rol";
 import { Tarea } from "./Tarea";
 import { PostRecetas } from './PostRecetas';
 import { Sexo } from "./Sexo";
+import { PostCalificaciones } from "./PostCalificaciones";
 
 
 @Entity('usuarios')
@@ -89,6 +90,9 @@ export class Usuario extends BaseEntity {
 
     @OneToMany(() => PostRecetas, (postRecetas) => postRecetas.IdUsuario)
     PostRecetas: PostRecetas[]
+
+    @OneToMany(() => PostCalificaciones, (calificacion) => calificacion.Usuario)
+    PostCalificaciones: PostCalificaciones[]
 
     @ManyToMany(() => Rol, (rol) => rol.Usuarios, { eager: true })
     @JoinTable({

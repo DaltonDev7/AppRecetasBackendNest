@@ -1,10 +1,11 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { PasosRecetas } from "./PasosRecetas";
 import { Usuario } from "./Usuario";
 import { ImagenesRecetas } from './ImagenesReceta';
 import { IngredientesRecetas } from './IngredientesRecetas';
 import { Nutricion } from './Nutricion';
 import { NivelDificultad } from "./NivelDificultad";
+import { PostCalificaciones } from "./PostCalificaciones";
 
 
 @Entity('postrecetas')
@@ -78,4 +79,8 @@ export class PostRecetas extends BaseEntity {
 
     @OneToOne(()=>  Nutricion, (nutricion) => nutricion.PostRecetas)
     Nutricion : Nutricion
+
+    @OneToMany(() => PostCalificaciones, (calificacion) => calificacion.PostRecetas, {eager :true})
+    PostCalificaciones: PostCalificaciones[]
+
 }

@@ -17,6 +17,7 @@ const ImagenesReceta_1 = require("./ImagenesReceta");
 const IngredientesRecetas_1 = require("./IngredientesRecetas");
 const Nutricion_1 = require("./Nutricion");
 const NivelDificultad_1 = require("./NivelDificultad");
+const PostCalificaciones_1 = require("./PostCalificaciones");
 let PostRecetas = class PostRecetas extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -94,6 +95,10 @@ __decorate([
     typeorm_1.OneToOne(() => Nutricion_1.Nutricion, (nutricion) => nutricion.PostRecetas),
     __metadata("design:type", Nutricion_1.Nutricion)
 ], PostRecetas.prototype, "Nutricion", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => PostCalificaciones_1.PostCalificaciones, (calificacion) => calificacion.PostRecetas, { eager: true }),
+    __metadata("design:type", Array)
+], PostRecetas.prototype, "PostCalificaciones", void 0);
 PostRecetas = __decorate([
     typeorm_1.Entity('postrecetas')
 ], PostRecetas);
